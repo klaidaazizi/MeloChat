@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">MeloChat</string>
+    <string-array name="genres_array">
+        <item>Pop</item>
+        <item>Rock</item>
+        <item>Country</item>
+        <item>Folk</item>
+        <item>Hip Hop</item>
+        <item>R&amp;B</item>
+        <item>Jazz</item>
+        <item>Classical</item>
+        <item>Reggae</item>
+        <item>EDM</item>
+        <item>Gospel</item>
+    </string-array>
 </resources>

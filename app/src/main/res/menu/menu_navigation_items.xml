@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_home"
+        android:title="post"
+        android:icon="@drawable/musicnote36"
+         />
+    <item android:id="@+id/action_feed"
+        android:title="profile"
+        android:icon="@drawable/profile64"
+         />
+    <item android:id="@+id/action_profile"
+        android:title="feed"
+        android:icon="@drawable/shuffle90" />
+</menu>
