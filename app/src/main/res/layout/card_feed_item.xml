@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/feed_item_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/material_dynamic_tertiary90"
+    app:cardCornerRadius="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+
+        <ImageView
+            android:id="@+id/imageView_profilePic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:background="@color/white"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/textView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@+id/imageView_profilePic"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_name"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/imageView_profilePic"
+            android:text="Username"
+            android:textColor="@color/material_dynamic_neutral30"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/imageView_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/imageView_profilePic"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="20dp"
+            android:padding="2dp"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/textView_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="70dp"
+            android:layout_toEndOf="@id/imageView_thumbnail"
+            android:text="Genre: "
+            android:textColor="@color/material_dynamic_neutral30"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_genre"
+            android:layout_alignParentStart="false"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@id/imageView_thumbnail"
+            android:text="Post "
+            android:textColor="@color/material_dynamic_neutral30"
+            android:textSize="11sp" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/post_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView_thumbnail"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="0dp"
+            android:background="#E6DEFF"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/menu_post_items" />
+
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>
