@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "862475897736",
+    "firebase_url": "https://melochat-add60-default-rtdb.firebaseio.com",
+    "project_id": "melochat-add60",
+    "storage_bucket": "melochat-add60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862475897736:android:6804de19da89803b29883d",
+        "android_client_info": {
+          "package_name": "com.example.melochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862475897736-vc065i81alno4s31aodn05147obfq8a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArt7ABUF09YVrZadLDZH8btsEFURX5AMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862475897736-vc065i81alno4s31aodn05147obfq8a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
