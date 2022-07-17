@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_like"
+        android:title="like"
+        android:icon="@drawable/musicnote" />
+
+    <item android:id="@+id/action_comment"
+        android:title="comment"
+        android:icon="@drawable/comment" />
+
+    <item android:id="@+id/action_repost"
+        android:title="repost"
+        android:icon="@drawable/repost" />
+
+    <item android:id="@+id/action_thread"
+        android:title="more"
+        android:icon="@drawable/more" />
+</menu>
+
