@@ -6,10 +6,10 @@ public class PostItem {
     private String userId;
     private String genre;
     private String content;
-    private ImageView media;
+    private String media; //url to media
     private String timestamp;
 
-    public PostItem(String userId, String genre, String content, ImageView media, String timestamp) {
+    public PostItem(String userId, String genre, String content, String media, String timestamp) {
         this.userId = userId;
         this.genre = genre;
         this.content = content;
@@ -41,11 +41,11 @@ public class PostItem {
         this.content = content;
     }
 
-    public ImageView getMedia() {
+    public String getMedia() {
         return media;
     }
 
-    public void setMedia(ImageView media) {
+    public void setMedia(String media) {
         this.media = media;
     }
 

@@ -36,9 +36,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
-        Uri uri = Uri.parse(currentItem.getContent());
-        //TODO Add Picasso
-        //Picasso.get().load(uri).into(holder.image);
+        Uri uri = Uri.parse(currentItem.getMedia());
+        //TODO Generate thumbnail from uri
+
     }
 
     @Override
