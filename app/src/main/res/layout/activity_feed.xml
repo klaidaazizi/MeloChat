@@ -29,7 +29,7 @@
         android:id="@+id/top_navigation_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#F6D7A3"
+        android:background="#EFEEEE"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
