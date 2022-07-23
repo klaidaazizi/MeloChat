@@ -47,6 +47,7 @@
             android:insetRight="5dp"
             android:onClick="onClick"
             android:text="Following"
+            android:textSize="14sp"
             app:cornerRadius="50dp"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="127dp" />

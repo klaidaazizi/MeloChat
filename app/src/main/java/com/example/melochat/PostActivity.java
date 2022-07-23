@@ -13,11 +13,14 @@ public class PostActivity extends AppCompatActivity {
     private EditText postText;
     private Button mediaButton;
     private Spinner genreSpinner;
+    private String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        //TODO Create new post and add to database
 
         // Resource: https://developer.android.com/guide/topics/ui/controls/spinner
         genreSpinner = (Spinner) findViewById(R.id.spinner_genre);
@@ -28,5 +31,8 @@ public class PostActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         genreSpinner.setAdapter(adapter);
+
+
+
     }
 }
