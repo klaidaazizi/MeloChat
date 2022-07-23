@@ -1,12 +1,20 @@
 package com.example.melochat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -14,6 +22,36 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+        setTitle("Feed");
+
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("message");
+//
+//        myRef.setValue("Hello, World!");
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_post:
+                        Intent intent = new Intent(FeedActivity.this, PostActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_profile:
+                        intent = new Intent(FeedActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_feed:
+                        intent = new Intent(FeedActivity.this, FeedActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
+
     }
 
     public void onClick(View view){

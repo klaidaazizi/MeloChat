@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MeloChat</string>
     <string name="username">Username</string>
-    <string name="addprofileimage">addProfileImage</string>
+    <string name="addprofileimage">Add profile Image</string>
     <string name="user_s_name">User\'s Name</string>
     <string name="name">Name</string>
     <string name="genres">genres</string>
