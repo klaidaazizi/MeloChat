@@ -9,6 +9,8 @@
     <string name="trending">Trending</string>
     <string name="filter_by">Filter by</string>
     <string name="link_URL">Type a link</string>
+    <string name="add_picture">Add Picture </string>
+    <string name="Posts">posts</string>
     <string-array name="genres_array">
         <item>Pop</item>
         <item>Rock</item>
