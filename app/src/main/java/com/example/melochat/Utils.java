@@ -108,5 +108,13 @@ public class Utils {
 
     }
 
+    public static boolean isValidURL(String url) {
+        if (android.util.Patterns.WEB_URL.matcher(url).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
