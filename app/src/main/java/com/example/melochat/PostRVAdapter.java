@@ -56,7 +56,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
 
         public PostRVHolder(View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.textView_username);
+            username = itemView.findViewById(R.id.textView_email);
             fullName = itemView.findViewById(R.id.textView_name);
             genre = itemView.findViewById(R.id.textView_genre);
             content = itemView.findViewById(R.id.textView_post);
