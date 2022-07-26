@@ -3,20 +3,45 @@ package com.example.melochat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.melochat.models.PostItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FeedActivity extends AppCompatActivity {
+
+    private DatabaseReference mDatabase;
+    private DatabaseReference postsDatabase;
+    private RecyclerView recyclerView;
+    private PostRVAdapter rviewAdapter;
+    private RecyclerView.LayoutManager rLayoutManger;
+    private ArrayList<PostItem> postsList;
+    private Map<String, PostItem> posts;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +49,33 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
         setTitle("For you");
 
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//        myRef.setValue("Hello, World!");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        postsDatabase = mDatabase.child("posts");
+
+        postsDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Utils.postToastMessage("Error getting data from database",FeedActivity.this);
+                } else{
+                    updatePosts(task.getResult().getChildren());
+                    Collection<PostItem> values = posts.values();
+                    postsList = new ArrayList<>(values);
+                }
+            }
+        });
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updatePosts(snapshot.getChildren());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -52,7 +100,28 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+        //init(savedInstanceState);
     }
+
+    private void updatePosts(Iterable<DataSnapshot> children) {
+        posts = new HashMap<>();
+        for (DataSnapshot postSnapshot : children) {
+            String post = postSnapshot.getKey();
+            String timestamp = (String) postSnapshot.child("timestamp").getValue();
+            String genre = (String) postSnapshot.child("genre").getValue();
+            String userId = (String) postSnapshot.child("user").getValue();
+            String content = (String) postSnapshot.child("content").getValue();
+            String media = (String) postSnapshot.child("media").getValue();
+            posts.put(post, new PostItem(userId,genre,content,media,timestamp));
+            }
+        Log.d("posts",posts.values().toString());
+        }
+
+    private void getPosts() {
+        Collection<PostItem> values = posts.values();
+        postsList = new ArrayList<>(values);
+    }
+
 
     public void onClick(View view){
         switch (view.getId()){
@@ -83,5 +152,19 @@ public class FeedActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void init(Bundle savedInstanceState) {
+
+        createRecyclerView();
+    }
+
+    private void createRecyclerView() {
+        rLayoutManger = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.recyclerView_feed);
+        recyclerView.setHasFixedSize(true);
+        rviewAdapter = new PostRVAdapter(postsList);
+
+        recyclerView.setAdapter(rviewAdapter);
+        recyclerView.setLayoutManager(rLayoutManger);
+    }
 
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
@@ -14,13 +15,14 @@ import com.example.melochat.models.PostItem;
 import java.util.ArrayList;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
-    private final ArrayList<PostItem> postsList;
+    private ArrayList<PostItem> postsList;
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
         this.postsList = postsList;
     }
 
+    @NonNull
     @Override
     public PostRVHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_post, parent, false);
@@ -32,7 +34,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         PostItem currentItem = postsList.get(position);
 
         //TODO Get username and name from user Id database
-        holder.username.setText(currentItem.getUserId());
+        //holder.username.setText(currentItem.getUserId());
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
@@ -46,7 +48,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         return postsList.size();
     }
 
-    public class PostRVHolder extends RecyclerView.ViewHolder {
+    public static class PostRVHolder extends RecyclerView.ViewHolder {
         public TextView username;
         public TextView fullName;
         public TextView genre;
