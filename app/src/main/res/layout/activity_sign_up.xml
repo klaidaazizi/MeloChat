@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editText_username"
+        app:layout_constraintStart_toStartOf="@+id/editText_email"
         app:layout_constraintTop_toTopOf="@+id/textView_password" />
 
     <Spinner

@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView_email"
+            android:id="@+id/textView_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_name"
@@ -53,7 +53,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="167dp"
             android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/textView_email"
+            android:layout_toEndOf="@id/textView_username"
             android:text="Timestamp"
             android:textColor="@color/material_dynamic_neutral30"
             android:textSize="14sp" />

@@ -3,6 +3,7 @@ package com.example.melochat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,11 +59,8 @@ public class SignupActivity extends AppCompatActivity {
                 createAccount(emailText.getText().toString(),
                         passwordText.getText().toString(),
                         nameText.getText().toString());
-
             }
         });
-
-
     }
 
     // Reference: https://firebase.google.com/docs/auth/android/password-auth
@@ -95,6 +93,8 @@ public class SignupActivity extends AppCompatActivity {
 
                             Toast.makeText(SignupActivity.this, "Account created.",
                                     Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
