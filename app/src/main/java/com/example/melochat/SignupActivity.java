@@ -1,15 +1,20 @@
 package com.example.melochat;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.ByteArrayOutputStream;
+
 public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "Signup";
@@ -30,9 +37,13 @@ public class SignupActivity extends AppCompatActivity {
     private EditText nameText;
     private EditText emailText;
     private EditText passwordText;
+    private ImageView profileImageView;
     private DatabaseReference database;
     private FirebaseAuth mAuth;
 
+    int SELECT_PICTURE = 200;
+
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,14 @@ public class SignupActivity extends AppCompatActivity {
         nameText = findViewById(R.id.editText_name);
         emailText = findViewById(R.id.editText_email);
         passwordText = findViewById(R.id.editText_password);
+        // Initialize Image View
+        profileImageView = findViewById(R.id.imageView_profilePic);
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage(view);
+            }
+        });
         // Initialize Age Spinner
         ageSpinner = (Spinner) findViewById(R.id.spinner_age);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -103,5 +122,40 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void uploadImage(View view) {
+        //Intent intent = new Intent(Intent.ACTION_PICK,
+         //       android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        /*
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 200);
+        }
+
+         */
+    }
+
+
+    // Reference: https://www.geeksforgeeks.org/how-to-select-an-image-from-gallery-in-android/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+
+                    profileImageView.setImageURI(selectedImageUri);
+                }
+            }
+        }
     }
 }
