@@ -25,7 +25,7 @@
         app:layout_constraintHorizontal_bias="0.245"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.267" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
         android:id="@+id/textView_email"
@@ -77,6 +77,18 @@
         app:layout_constraintStart_toStartOf="@+id/textView_password"
         app:layout_constraintTop_toBottomOf="@+id/textView_password" />
 
+    <TextView
+        android:id="@+id/textView_profilePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="43dp"
+        android:text="Profile Photo"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView_age"
+        app:layout_constraintTop_toBottomOf="@+id/textView_age" />
+
     <EditText
         android:id="@+id/editText_name"
         android:layout_width="wrap_content"
@@ -113,6 +125,16 @@
         app:layout_constraintTop_toTopOf="@+id/textView_age"
         app:layout_constraintVertical_bias="0.0" />
 
+    <ImageView
+        android:id="@+id/imageView_profilePic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="@+id/spinner_age"
+        app:layout_constraintTop_toTopOf="@+id/textView_profilePhoto"
+        app:srcCompat="@drawable/profile64" />
+
     <Button
         android:id="@+id/button_signup"
         android:layout_width="wrap_content"
@@ -122,8 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_age"
-        app:layout_constraintVertical_bias="0.40" />
-
+        app:layout_constraintTop_toBottomOf="@+id/textView_profilePhoto"
+        app:layout_constraintVertical_bias="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
