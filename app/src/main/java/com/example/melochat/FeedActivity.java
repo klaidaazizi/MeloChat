@@ -40,7 +40,7 @@ public class FeedActivity extends AppCompatActivity {
     private PostRVAdapter rviewAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
     private ArrayList<PostItem> postsList;
-    private Map<String, PostItem> posts;
+    //private Map<String, PostItem> posts;
 
 
     @Override
@@ -48,6 +48,8 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         setTitle("For you");
+        postsList = new ArrayList<>();
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         postsDatabase = mDatabase.child("posts");
@@ -59,8 +61,6 @@ public class FeedActivity extends AppCompatActivity {
                     Utils.postToastMessage("Error getting data from database",FeedActivity.this);
                 } else{
                     updatePosts(task.getResult().getChildren());
-                    Collection<PostItem> values = posts.values();
-                    postsList = new ArrayList<>(values);
                 }
             }
         });
@@ -74,7 +74,6 @@ public class FeedActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -100,27 +99,22 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
-        //init(savedInstanceState);
+        init(savedInstanceState);
     }
 
     private void updatePosts(Iterable<DataSnapshot> children) {
-        posts = new HashMap<>();
         for (DataSnapshot postSnapshot : children) {
-            String post = postSnapshot.getKey();
+            //String post = postSnapshot.getKey();
             String timestamp = (String) postSnapshot.child("timestamp").getValue();
             String genre = (String) postSnapshot.child("genre").getValue();
-            String userId = (String) postSnapshot.child("user").getValue();
+            String userId = (String) postSnapshot.child("userId").getValue();
+            String userName = (String) postSnapshot.child("userName").getValue();
             String content = (String) postSnapshot.child("content").getValue();
             String media = (String) postSnapshot.child("media").getValue();
-            posts.put(post, new PostItem(userId,genre,content,media,timestamp));
+            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
             }
-        Log.d("posts",posts.values().toString());
+        Log.d("posts",postsList.toString());
         }
-
-    private void getPosts() {
-        Collection<PostItem> values = posts.values();
-        postsList = new ArrayList<>(values);
-    }
 
 
     public void onClick(View view){
@@ -153,7 +147,6 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void init(Bundle savedInstanceState) {
-
         createRecyclerView();
     }
 

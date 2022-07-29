@@ -35,25 +35,25 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView_name"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/imageView_profilePic"
-            android:text="Username"
-            android:textColor="@color/material_dynamic_neutral30"
-            android:textSize="15sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView_email"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/textView_name"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_toEndOf="@id/imageView_profilePic"-->
+<!--            android:text="Email"-->
+<!--            android:textColor="@color/material_dynamic_neutral30"-->
+<!--            android:textSize="15sp" />-->
 
         <TextView
             android:id="@+id/textView_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="167dp"
-            android:layout_marginTop="30dp"
-            android:layout_toEndOf="@id/textView_username"
+            android:layout_marginStart="171dp"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@id/textView_name"
             android:text="Timestamp"
             android:textColor="@color/material_dynamic_neutral30"
             android:textSize="14sp" />
