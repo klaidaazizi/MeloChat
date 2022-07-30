@@ -59,7 +59,8 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/textView_genre"
         app:layout_constraintTop_toBottomOf="@+id/editText_post"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.1"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView_media"
@@ -78,6 +79,7 @@
         android:id="@+id/button_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onMediaButtonClick"
         android:text="+"
         app:layout_constraintBottom_toBottomOf="@+id/textView_media"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,5 +98,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
         app:menu="@menu/menu_navigation_items" />
+
+    <Button
+        android:id="@+id/button_addPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addPost"
+        android:text="Add post"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_media"
+        app:layout_constraintVertical_bias="0.288" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

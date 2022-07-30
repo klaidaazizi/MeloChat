@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,17 +19,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     private ImageView profilePhoto;
     private TextView emailText;
     private TextView nameText;
-
-    private FirebaseAuth mAuth;
     private StorageReference mStorage;
     private StorageReference profileImagesRef;
 
@@ -36,7 +38,9 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        setTitle("Profile");
+        mAuth = FirebaseAuth.getInstance();
+        nameText = (TextView) findViewById(R.id.textView_name);
+        emailText = (TextView) findViewById(R.id.textView_email);
 
         // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
@@ -66,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public void onStart() {

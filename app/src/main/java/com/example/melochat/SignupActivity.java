@@ -2,6 +2,7 @@ package com.example.melochat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,12 +16,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -35,6 +44,12 @@ public class SignupActivity extends AppCompatActivity {
     private EditText passwordText;
     private ImageView profileImageView;
     private FirebaseAuth mAuth;
+    private DatabaseReference database;
+    public ArrayList<PostItem> postsList;
+    private DatabaseReference postsDatabase;
+    private RecyclerView recyclerView;
+    private PostRVAdapter rviewAdapter;
+    private RecyclerView.LayoutManager rLayoutManger;
     private StorageReference mStorage;
     StorageReference profileImagesRef;
 
@@ -91,6 +106,36 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        database = FirebaseDatabase.getInstance().getReference();
+        postsDatabase = database.child("posts");
+        postsList = new ArrayList<>();
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updatePosts(snapshot.getChildren());
+                Log.e("POSTS: ", postsList.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void updatePosts(Iterable<DataSnapshot> children) {
+        for (DataSnapshot postSnapshot : children) {
+            //String post = postSnapshot.getKey();
+            String timestamp = (String) postSnapshot.child("timestamp").getValue();
+            String genre = (String) postSnapshot.child("genre").getValue();
+            String userId = (String) postSnapshot.child("userId").getValue();
+            String userName = (String) postSnapshot.child("userName").getValue();
+            String content = (String) postSnapshot.child("content").getValue();
+            String media = (String) postSnapshot.child("media").getValue();
+            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
+        }
+        //Log.d("posts",postsList.toString());
     }
 
     // Reference: https://firebase.google.com/docs/auth/android/password-auth
@@ -126,6 +171,7 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this, "Account created.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+                            intent.putExtra("posts", postsList);
                             startActivity(intent);
 
                         } else {
