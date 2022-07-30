@@ -68,8 +68,7 @@ public class FeedActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
-                        intent = new Intent(FeedActivity.this, FeedActivity.class);
-                        startActivity(intent);
+                        Utils.postToastMessage("You're already in the feed activity!",FeedActivity.this);
                         break;
                 }
                 return true;

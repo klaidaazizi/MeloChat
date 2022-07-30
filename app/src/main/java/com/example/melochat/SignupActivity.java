@@ -44,6 +44,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText passwordText;
     private ImageView profileImageView;
     private FirebaseAuth mAuth;
+    private DatabaseReference database;
     public ArrayList<PostItem> postsList;
     private DatabaseReference postsDatabase;
     private RecyclerView recyclerView;
@@ -170,6 +171,7 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this, "Account created.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+                            intent.putExtra("posts", postsList);
                             startActivity(intent);
 
                         } else {

@@ -39,8 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
-        name = (TextView) findViewById(R.id.textView_name);
-        email = (TextView) findViewById(R.id.textView_email);
+        nameText = (TextView) findViewById(R.id.textView_name);
+        emailText = (TextView) findViewById(R.id.textView_email);
 
         // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
