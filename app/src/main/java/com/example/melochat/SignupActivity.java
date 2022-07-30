@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -38,25 +42,42 @@ public class SignupActivity extends AppCompatActivity {
     private EditText nameText;
     private EditText emailText;
     private EditText passwordText;
-    private DatabaseReference database;
+    private ImageView profileImageView;
     private FirebaseAuth mAuth;
     public ArrayList<PostItem> postsList;
     private DatabaseReference postsDatabase;
     private RecyclerView recyclerView;
     private PostRVAdapter rviewAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
+    private StorageReference mStorage;
+    StorageReference profileImagesRef;
+
+    int SELECT_PICTURE = 200;
+
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Storage
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference();
+        profileImagesRef = mStorage.child("profileImages");
+
         // Initialize Edit Texts
         nameText = findViewById(R.id.editText_name);
         emailText = findViewById(R.id.editText_email);
         passwordText = findViewById(R.id.editText_password);
+        // Initialize Image View
+        profileImageView = findViewById(R.id.imageView_profilePic);
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage(view);
+            }
+        });
         // Initialize Age Spinner
         ageSpinner = (Spinner) findViewById(R.id.spinner_age);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -68,9 +89,20 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(emailText.getText().toString(),
-                        passwordText.getText().toString(),
-                        nameText.getText().toString());
+                // if photo has been selected
+                if (imageUri != null) {
+                    createAccount(emailText.getText().toString(),
+                            passwordText.getText().toString(),
+                            nameText.getText().toString(),
+                            imageUri);
+                }
+                else {
+                    imageUri = Uri.parse("android.resource://com.example.melochat/drawable/profile64.png");
+                    createAccount(emailText.getText().toString(),
+                            passwordText.getText().toString(),
+                            nameText.getText().toString(),
+                            imageUri);
+                }
             }
         });
 
@@ -117,27 +149,29 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     // Reference: https://firebase.google.com/docs/auth/android/password-auth
-    private void createAccount(String email, String password, String name) {
+    private void createAccount(String email, String password, String name, Uri imageUri) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success
                             FirebaseUser user = mAuth.getCurrentUser();
                             // Set display name
-                            // TODO set user profile photo
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
-                            //        .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                                     .build();
                             user.updateProfile(profileUpdates);
 
+                            // add photo to Storage Firebase naming it by userID
+                            profileImagesRef.child(user.getUid()).putFile(imageUri);
+
+                            // Display success message and bring user to Feed Page
                             Toast.makeText(SignupActivity.this, "Account created.",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
-                            intent.putExtra("posts", postsList);
                             startActivity(intent);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -146,5 +180,31 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // Reference: https://www.geeksforgeeks.org/how-to-select-an-image-from-gallery-in-android/
+    public void uploadImage(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    // Reference: https://www.geeksforgeeks.org/how-to-select-an-image-from-gallery-in-android/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            // compare the resultCode with the SELECT_PICTURE constant
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    profileImageView.setImageURI(selectedImageUri);
+                    imageUri = selectedImageUri;
+                }
+            }
+        }
     }
 }

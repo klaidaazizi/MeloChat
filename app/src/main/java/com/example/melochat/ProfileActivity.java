@@ -2,25 +2,37 @@ package com.example.melochat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private TextView name;
-    private TextView age;
-    private TextView email;
-
+    private ImageView profilePhoto;
+    private TextView emailText;
+    private TextView nameText;
+    private StorageReference mStorage;
+    private StorageReference profileImagesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +41,12 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         name = (TextView) findViewById(R.id.textView_name);
         email = (TextView) findViewById(R.id.textView_email);
+
+        // Initialize widgets
+        profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
+        emailText = (TextView) findViewById(R.id.textView_email);
+        nameText = (TextView) findViewById(R.id.textView_name);
+        profilePhoto = findViewById(R.id.userProfileImage);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -51,19 +69,37 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
+
+
     @Override
     public void onStart() {
         super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance().getReference();
+        profileImagesRef = mStorage.child("profileImages");
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
-            setTitle(currentUser.getDisplayName() + "'s Profile");
-            name.setText(currentUser.getDisplayName() + "");
-            email.setText(currentUser.getEmail() + "");
+            nameText.setText(currentUser.getDisplayName());
+            emailText.setText(currentUser.getEmail());
+            Toast.makeText(ProfileActivity.this, "Login Success.",
+                    Toast.LENGTH_SHORT).show();
+
+            // Get URL of profile image named by their userID and update UI
+            profileImagesRef.child(currentUser.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).into(profilePhoto);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(ProfileActivity.this, "Failed to Access Profile Photo.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
-
 }
