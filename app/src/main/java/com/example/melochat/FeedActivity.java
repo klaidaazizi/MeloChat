@@ -46,34 +46,11 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+
         setTitle("For you");
-        postsList = new ArrayList<>();
 
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = mDatabase.child("posts");
-
-        postsDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Utils.postToastMessage("Error getting data from database",FeedActivity.this);
-                } else{
-                    updatePosts(task.getResult().getChildren());
-                }
-            }
-        });
-        postsDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                updatePosts(snapshot.getChildren());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
+        setContentView(R.layout.activity_feed);
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -99,22 +76,10 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+
         init(savedInstanceState);
     }
 
-    private void updatePosts(Iterable<DataSnapshot> children) {
-        for (DataSnapshot postSnapshot : children) {
-            //String post = postSnapshot.getKey();
-            String timestamp = (String) postSnapshot.child("timestamp").getValue();
-            String genre = (String) postSnapshot.child("genre").getValue();
-            String userId = (String) postSnapshot.child("userId").getValue();
-            String userName = (String) postSnapshot.child("userName").getValue();
-            String content = (String) postSnapshot.child("content").getValue();
-            String media = (String) postSnapshot.child("media").getValue();
-            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
-            }
-        Log.d("posts",postsList.toString());
-        }
 
 
     public void onClick(View view){

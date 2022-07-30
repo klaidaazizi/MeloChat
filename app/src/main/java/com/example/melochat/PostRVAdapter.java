@@ -1,6 +1,7 @@
 package com.example.melochat;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
-import com.firebase.ui.auth.data.model.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
-    public ArrayList<PostItem> postsList;
+    private final ArrayList<PostItem> postsList;
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -28,7 +26,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
     @NonNull
     @Override
     public PostRVHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_post, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_feed_item, parent, false);
         return new PostRVHolder(view);
     }
 
@@ -42,17 +40,18 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
-        Uri uri = Uri.parse(currentItem.getMedia());
+        //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
 
     }
 
     @Override
     public int getItemCount() {
+        //Log.e("POSTS", String.valueOf(postsList));
         return postsList.size();
     }
 
-    public static class PostRVHolder extends RecyclerView.ViewHolder {
+    public class PostRVHolder extends RecyclerView.ViewHolder {
         public TextView email;
         public TextView name;
         public TextView genre;
