@@ -106,6 +106,7 @@ public class PostActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         Intent intent = new Intent(PostActivity.this, ProfileActivity.class);
+                        intent.putExtra("posts",postsList);
                         startActivity(intent);
                         break;
                     case R.id.action_feed:

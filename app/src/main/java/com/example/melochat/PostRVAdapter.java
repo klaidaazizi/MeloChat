@@ -11,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.melochat.models.PostItem;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
     private final ArrayList<PostItem> postsList;
+    private View context;
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -34,14 +37,18 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
     public void onBindViewHolder(PostRVHolder holder, int position) {
 
         PostItem currentItem = postsList.get(position);
-
         //holder.email.setText(currentItem.getUserId());
-        holder.name.setText(currentItem.getUserName());
+        holder.name.setText(currentItem.getUserId());
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
+
         //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
+//        Glide.with(context)
+//        .load(uri)
+//                .thumbnail(0.1f)
+//                .into(holder.media);
 
     }
 
