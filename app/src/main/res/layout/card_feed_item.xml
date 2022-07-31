@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/material_dynamic_tertiary90"
-    app:cardCornerRadius="0dp">
+    android:clickable="false"
+    app:cardBackgroundColor="#FFEAF6"
+    app:cardCornerRadius="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,25 +28,24 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView_email"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/textView_name"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_toEndOf="@id/imageView_profilePic"-->
-<!--            android:text="Email"-->
-<!--            android:textColor="@color/material_dynamic_neutral30"-->
-<!--            android:textSize="15sp" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView_email"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@id/textView_name"-->
+        <!--            android:layout_marginStart="8dp"-->
+        <!--            android:layout_toEndOf="@id/imageView_profilePic"-->
+        <!--            android:text="Email"-->
+        <!--            android:textColor="@color/material_dynamic_neutral30"-->
+        <!--            android:textSize="15sp" />-->
 
         <TextView
             android:id="@+id/textView_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="183dp"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/textView_name"
             android:text="@string/timestamp"
             android:textColor="@color/material_dynamic_neutral30"
             android:textSize="14sp" />
@@ -72,7 +72,7 @@
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/genre"
             android:textColor="@color/material_dynamic_neutral30"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <TextView
@@ -86,19 +86,92 @@
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/post"
             android:textColor="@color/material_dynamic_neutral30"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/post_navigation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView_thumbnail"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="0dp"
-            android:background="#E6DEFF"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/menu_post_items" />
+            android:layout_below="@id/imageView_thumbnail"
+            android:layout_alignParentStart="true"
+            android:visibility="visible">
+
+
+            <Button
+                android:id="@+id/button_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="#FF5722"
+                android:text="Like"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:icon="@drawable/musicnote"
+                app:iconGravity="textTop"
+                app:iconSize="20dp" />
+
+            <Button
+                android:id="@+id/button_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="#009688"
+                android:text="Comment"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:icon="@drawable/comment"
+                app:iconGravity="top"
+                app:iconSize="20dp" />
+
+            <Button
+                android:id="@+id/button_repost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="#FF9800"
+                android:text="Repost"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:icon="@drawable/repost"
+                app:iconGravity="textTop"
+                app:iconSize="20dp" />
+
+            <Button
+                android:id="@+id/button_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="#3F51B5"
+                android:text="More"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:icon="@drawable/more"
+                app:iconGravity="textTop"
+                app:iconSize="20dp" />
+
+
+        </LinearLayout>
+
+
+        <!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+        <!--            android:id="@+id/post_navigation"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@+id/imageView_thumbnail"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_marginTop="2dp"-->
+        <!--            android:layout_marginEnd="0dp"-->
+        <!--            android:background="#E6DEFF"-->
+        <!--            app:labelVisibilityMode="labeled"-->
+        <!--            app:menu="@menu/menu_post_items">-->
+
+        <!--            -->
+        <!--        </com.google.android.material.bottomnavigation.BottomNavigationView>-->
 
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>
