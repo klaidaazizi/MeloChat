@@ -29,7 +29,7 @@
         android:id="@+id/top_navigation_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#EFEEEE"
+        android:background="#F1F1F1"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
@@ -39,26 +39,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.196">
 
-        <Button
-            android:id="@+id/button_following"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:insetRight="5dp"
-            android:onClick="onClick"
-            android:text="Following"
-            app:cornerRadius="50dp"
-            tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="127dp" />
 
         <Button
-            android:id="@+id/button_trending"
+            android:id="@+id/button_foryou"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:insetRight="5dp"
+            android:insetRight="10dp"
             android:onClick="onClick"
-            android:text="Trending"
+            android:text="For you"
             app:cornerRadius="50dp"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="127dp" />

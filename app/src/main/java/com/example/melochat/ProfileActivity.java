@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,9 +23,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -33,6 +42,10 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameText;
     private StorageReference mStorage;
     private StorageReference profileImagesRef;
+
+    private ArrayList<PostItem> postsList;
+    private DatabaseReference database;
+    private DatabaseReference postsDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +76,25 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
                     case R.id.action_feed:
                         intent = new Intent(ProfileActivity.this, FeedActivity.class);
+                        intent.putExtra("posts", postsList);
                         startActivity(intent);
                         break;
                 }
                 return true;
+            }
+        });
+        database = FirebaseDatabase.getInstance().getReference();
+        postsDatabase = database.child("posts");
+        postsList = new ArrayList<>();
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updatePosts(snapshot.getChildren());
+                Log.e("POSTS: ", postsList.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }
@@ -102,4 +130,20 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void updatePosts(Iterable<DataSnapshot> children) {
+        for (DataSnapshot postSnapshot : children) {
+            //String post = postSnapshot.getKey();
+            String timestamp = (String) postSnapshot.child("timestamp").getValue();
+            String genre = (String) postSnapshot.child("genre").getValue();
+            String userId = (String) postSnapshot.child("userId").getValue();
+            String userName = (String) postSnapshot.child("userName").getValue();
+            String content = (String) postSnapshot.child("content").getValue();
+            String media = (String) postSnapshot.child("media").getValue();
+            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
+        }
+        //Log.d("posts",postsList.toString());
+    }
+
+
 }
