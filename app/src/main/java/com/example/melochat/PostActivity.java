@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -49,12 +50,13 @@ public class PostActivity extends AppCompatActivity {
     private String userId;
     private String userName;
     private String timestamp;
-    private DatabaseReference mDatabase;
+    private DatabaseReference database;
     private DatabaseReference usersDatabase;
     private DatabaseReference postsDatabase;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     //private Map<String, User> users;
     private FirebaseAuth mAuth;
+    public ArrayList<PostItem> postsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +78,21 @@ public class PostActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         genreSpinner.setAdapter(adapter);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
+        postsDatabase = database.child("posts");
 
-        postsDatabase = mDatabase.child("posts");
+        postsList = new ArrayList<>();
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updatePosts(snapshot.getChildren());
+                Log.e("POSTS: ", postsList.toString());
+            }
 
-        //TODO Create new post and add to database
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -98,6 +110,7 @@ public class PostActivity extends AppCompatActivity {
                         break;
                     case R.id.action_feed:
                         intent = new Intent(PostActivity.this, FeedActivity.class);
+                        intent.putExtra("posts", postsList);
                         startActivity(intent);
                         break;
                 }
@@ -118,6 +131,20 @@ public class PostActivity extends AppCompatActivity {
             userId = currentUser.getUid();
             userName = currentUser.getDisplayName();
         }
+    }
+
+    private void updatePosts(Iterable<DataSnapshot> children) {
+        for (DataSnapshot postSnapshot : children) {
+            //String post = postSnapshot.getKey();
+            String timestamp = (String) postSnapshot.child("timestamp").getValue();
+            String genre = (String) postSnapshot.child("genre").getValue();
+            String userId = (String) postSnapshot.child("userId").getValue();
+            String userName = (String) postSnapshot.child("userName").getValue();
+            String content = (String) postSnapshot.child("content").getValue();
+            String media = (String) postSnapshot.child("media").getValue();
+            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
+        }
+        //Log.d("posts",postsList.toString());
     }
 
     public void onMediaButtonClick(View view){
@@ -144,7 +171,7 @@ public class PostActivity extends AppCompatActivity {
         genre = genreSpinner.getSelectedItem().toString();
         timestamp = dateFormat.format(new Date()); //this is gonna be the post id
         PostItem post = new PostItem(userId,userName,genre,content,media,timestamp);
-        mDatabase.child("posts").child(timestamp).setValue(post)
+        database.child("posts").child(timestamp).setValue(post)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
