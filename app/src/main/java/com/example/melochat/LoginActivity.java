@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                         passwordText.getText().toString());
             }
         });
-        mAuth = FirebaseAuth.getInstance();
+
         database = FirebaseDatabase.getInstance().getReference();
         postsDatabase = database.child("posts");
         postsList = new ArrayList<>();

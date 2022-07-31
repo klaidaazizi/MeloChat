@@ -10,27 +10,15 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.melochat.models.PostItem;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -83,12 +71,9 @@ public class FeedActivity extends AppCompatActivity {
 
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.button_following:
-                Intent followingIntent = new Intent(this, FollowingActivity.class);
-                startActivity(followingIntent);
-                break;
-            case R.id.button_trending:
+             case R.id.button_trending:
                 Intent trendingIntent = new Intent(this, TrendingActivity.class);
+
                 startActivity(trendingIntent);
                 break;
             case R.id.button_filter:
