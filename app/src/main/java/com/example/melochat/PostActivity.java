@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,23 +46,23 @@ public class PostActivity extends AppCompatActivity {
     private String media;
     private Spinner genreSpinner;
     private String genre;
-    private String currentUser;
+    private String userId;
+    private String userName;
     private String timestamp;
     private DatabaseReference mDatabase;
     private DatabaseReference usersDatabase;
     private DatabaseReference postsDatabase;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     //private Map<String, User> users;
-
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        currentUser = getIntent().getStringExtra("currentUser");
-        setTitle(currentUser + "'s Profile");
 
+        mAuth = FirebaseAuth.getInstance();
         postText = (EditText) findViewById(R.id.editText_post);
         mediaButton = (Button) findViewById(R.id.button_media);
 
@@ -75,32 +77,6 @@ public class PostActivity extends AppCompatActivity {
         genreSpinner.setAdapter(adapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        //get current user
-        usersDatabase = mDatabase.child("users");
-        usersDatabase.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Utils.postToastMessage( "Error getting data from database",PostActivity.this);
-                } else{
-                    //updateUsers(task.getResult().getChildren());
-                    //getUser();
-                }
-            }
-        });
-        usersDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //updateUsers(snapshot.getChildren());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-
 
         postsDatabase = mDatabase.child("posts");
 
@@ -132,6 +108,18 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+            userId = currentUser.getUid();
+            userName = currentUser.getDisplayName();
+        }
+    }
+
     public void onMediaButtonClick(View view){
         final View alert = getLayoutInflater().inflate(R.layout.dialog_link_collector,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -152,11 +140,10 @@ public class PostActivity extends AppCompatActivity {
     }
 
     public void addPost(View view) {
-        currentUser = "Klaida";
         content = postText.getText().toString();
         genre = genreSpinner.getSelectedItem().toString();
         timestamp = dateFormat.format(new Date()); //this is gonna be the post id
-        PostItem post = new PostItem(currentUser,genre,content,media,timestamp);
+        PostItem post = new PostItem(userId,userName,genre,content,media,timestamp);
         mDatabase.child("posts").child(timestamp).setValue(post)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -172,18 +159,6 @@ public class PostActivity extends AppCompatActivity {
                 });
     }
 
-//    private void getUser() {
-//        if (users.containsKey(currentUser)) {
-//            User currUser = users.get(currentUser);
-//            usersDatabase.child(currentUser).setValue(currUser).addOnCompleteListener(task -> {
-//                if (task.isSuccessful()) {
-//                    Toast.makeText(this, "Current user loaded successfully", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(this, "User doesn't exist", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
 
 
 }

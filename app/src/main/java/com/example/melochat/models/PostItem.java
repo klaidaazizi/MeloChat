@@ -2,15 +2,21 @@ package com.example.melochat.models;
 
 import android.widget.ImageView;
 
-public class PostItem {
+import java.io.Serializable;
+
+public class PostItem implements Serializable {
     private String userId;
+    private String userName;
     private String genre;
     private String content;
     private String media; //url to media
     private String timestamp;
 
-    public PostItem(String userId, String genre, String content, String media, String timestamp) {
+    public PostItem(){}
+
+    public PostItem(String userId, String userName, String genre, String content, String media, String timestamp) {
         this.userId = userId;
+        this.userName = userName;
         this.genre = genre;
         this.content = content;
         this.media = media;
@@ -25,6 +31,9 @@ public class PostItem {
         this.userId = userId;
     }
 
+    public String getUserName() {
+        return userName;
+    }
     public String getGenre() {
         return genre;
     }
