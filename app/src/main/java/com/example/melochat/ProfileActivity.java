@@ -61,6 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
         nameText = (TextView) findViewById(R.id.textView_name);
         profilePhoto = findViewById(R.id.userProfileImage);
 
+        postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")

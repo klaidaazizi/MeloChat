@@ -1,5 +1,7 @@
 package com.example.melochat;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.melochat.models.PostItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -53,6 +56,7 @@ public class FeedActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         intent = new Intent(FeedActivity.this, ProfileActivity.class);
+                        intent.putExtra("posts",postsList);
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
