@@ -9,17 +9,17 @@ public class PostItem implements Serializable {
     private String userName;
     private String genre;
     private String content;
-    private String mediaURL; //url to media
+    private String media; //url to media
     private String timestamp;
 
     public PostItem(){}
 
-    public PostItem(String userId, String userName, String genre, String content, String mediaURL, String timestamp) {
+    public PostItem(String userId, String userName, String genre, String content, String media, String timestamp) {
         this.userId = userId;
         this.userName = userName;
         this.genre = genre;
         this.content = content;
-        this.mediaURL = mediaURL;
+        this.media = media;
         this.timestamp = timestamp;
     }
 
@@ -50,12 +50,12 @@ public class PostItem implements Serializable {
         this.content = content;
     }
 
-    public String getMediaURL() {
-        return mediaURL;
+    public String getMedia() {
+        return media;
     }
 
-    public void setMediaURL(String mediaURL) {
-        this.mediaURL = mediaURL;
+    public void setMedia(String media) {
+        this.media = media;
     }
 
     public String getTimestamp() {

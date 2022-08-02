@@ -52,7 +52,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
 
-        Uri uri = Uri.parse(currentItem.getMediaURL());
+        Uri uri = Uri.parse(currentItem.getMedia());
 
         //Glide.with(holder.media.getContext()).load(uri).into(holder.media);
 
@@ -61,14 +61,14 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
 //        bmThumbnail = getThumblineImage(uri.toString());
 //        holder.media.setImageBitmap(bmThumbnail);
 
-        holder.media.setOnClickListener(new View.OnClickListener() {
+        holder.mediaView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent viewIntent =
                         new Intent("android.intent.action.VIEW",
                                 Uri.parse(uri.toString()));
                 Bundle extras = viewIntent.getExtras();
-                startActivity(holder.media.getContext(),viewIntent,extras);
+                startActivity(holder.mediaView.getContext(),viewIntent,extras);
             }
         });
     }
@@ -91,7 +91,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public TextView genre;
         public TextView content;
         public TextView timestamp;
-        public ImageButton media;
+        public ImageButton mediaView;
 
         public PostRVHolder(View itemView) {
             super(itemView);
@@ -100,7 +100,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             genre = itemView.findViewById(R.id.textView_genre);
             content = itemView.findViewById(R.id.textView_post);
             timestamp = itemView.findViewById(R.id.textView_timestamp);
-            media = (ImageButton) itemView.findViewById(R.id.imageView_thumbnail);
+            mediaView = (ImageButton) itemView.findViewById(R.id.imageView_thumbnail);
 
         }
     }

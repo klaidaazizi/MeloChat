@@ -29,7 +29,7 @@ public class FeedActivity extends AppCompatActivity {
     private DatabaseReference postsDatabase;
     private RecyclerView recyclerView;
     private PostRVAdapter rviewAdapter;
-    private RecyclerView.LayoutManager rLayoutManger;
+    private LinearLayoutManager rLayoutManger;
     private ArrayList<PostItem> postsList;
     //private Map<String, PostItem> posts;
 
@@ -109,7 +109,10 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void createRecyclerView(ArrayList arrayList) {
-        rLayoutManger = new LinearLayoutManager(this);
+        rLayoutManger = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rLayoutManger.setStackFromEnd(true);
+        rLayoutManger.setReverseLayout(true);
+
         recyclerView = findViewById(R.id.recyclerView_feed);
         recyclerView.setHasFixedSize(true);
         rviewAdapter = new PostRVAdapter(arrayList);
