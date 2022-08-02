@@ -43,6 +43,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
+        holder.likeCount.setText(currentItem.getLikes());
+        holder.commentCount.setText(currentItem.getComments());
+        holder.repostCount.setText(currentItem.getReposts());
         //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
 
@@ -50,6 +53,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addLike();
+                holder.likeCount.setText(currentItem.getLikes());
             }
         });
 
@@ -57,6 +61,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addComment();
+                holder.commentCount.setText(currentItem.getComments());
             }
         });
 
@@ -64,6 +69,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addRepost();
+                holder.repostCount.setText(currentItem.getReposts());
             }
         });
     }
@@ -84,6 +90,11 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public Button like;
         public Button comment;
         public Button repost;
+        public TextView likeCount;
+        public TextView commentCount;
+        public TextView repostCount;
+
+
 
         public PostRVHolder(View itemView) {
             super(itemView);
@@ -95,6 +106,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             like = itemView.findViewById(R.id.button_like);
             comment = itemView.findViewById(R.id.button_comment);
             repost = itemView.findViewById(R.id.button_repost);
+            likeCount = itemView.findViewById(R.id.textView_like);
+            commentCount = itemView.findViewById(R.id.textView_comment);
+            repostCount = itemView.findViewById(R.id.textView_repost);
             //media = itemView.findViewById(R.id.textView_media);
         }
     }
