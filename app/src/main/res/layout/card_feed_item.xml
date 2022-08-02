@@ -47,7 +47,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="1dp"
             android:text="@string/timestamp"
-            android:textColor="@color/material_dynamic_neutral30"
+            android:textColor="#808080"
             android:textSize="14sp" />
 
         <ImageView
@@ -71,7 +71,7 @@
             android:layout_marginTop="39dp"
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/genre"
-            android:textColor="@color/material_dynamic_neutral30"
+            android:textColor="@color/black"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
             android:layout_marginTop="7dp"
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/post"
-            android:textColor="@color/material_dynamic_neutral30"
+            android:textColor="#808080"
             android:textSize="12sp" />
 
         <LinearLayout

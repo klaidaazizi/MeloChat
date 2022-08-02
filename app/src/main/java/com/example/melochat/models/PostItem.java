@@ -29,6 +29,19 @@ public class PostItem implements Serializable {
         this.reposts = 0;
     }
 
+    public PostItem(String userId, String userName, String genre, String content, String media, String timestamp,
+                    Integer likes, Integer comments, Integer reposts) {
+        this.userId = userId;
+        this.userName = userName;
+        this.genre = genre;
+        this.content = content;
+        this.media = media;
+        this.timestamp = timestamp;
+        this.likes = likes;
+        this.comments = comments;
+        this.reposts = reposts;
+    }
+
     public String getUserId() {
         return userId;
     }

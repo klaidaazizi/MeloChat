@@ -43,9 +43,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
-        holder.likeCount.setText(currentItem.getLikes());
-        holder.commentCount.setText(currentItem.getComments());
-        holder.repostCount.setText(currentItem.getReposts());
+        holder.likeCount.setText(currentItem.getLikes().toString());
+        holder.commentCount.setText(currentItem.getComments().toString());
+        holder.repostCount.setText(currentItem.getReposts().toString());
         //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
 
@@ -53,7 +53,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addLike();
-                holder.likeCount.setText(currentItem.getLikes());
+                holder.likeCount.setText(currentItem.getLikes().toString());
             }
         });
 
@@ -61,7 +61,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addComment();
-                holder.commentCount.setText(currentItem.getComments());
+                holder.commentCount.setText(currentItem.getComments().toString());
             }
         });
 
@@ -69,7 +69,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addRepost();
-                holder.repostCount.setText(currentItem.getReposts());
+                holder.repostCount.setText(currentItem.getReposts().toString());
             }
         });
     }
