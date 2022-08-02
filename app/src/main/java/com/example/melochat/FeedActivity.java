@@ -69,7 +69,6 @@ public class FeedActivity extends AppCompatActivity {
     }
 
 
-
     public void onClick(View view){
         switch (view.getId()){
              case R.id.button_trending:
@@ -84,27 +83,33 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void filterPosts() {
+        ArrayList<PostItem> filteredPosts = new ArrayList<>();
         String[] options = getResources().getStringArray(R.array.genres_array);
         AlertDialog.Builder builder = new AlertDialog.Builder(FeedActivity.this);
         builder.setTitle("Filter by genre");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO Select posts by genre
+                for (PostItem post : postsList){
+                    if (post.getGenre().equalsIgnoreCase(options[which])){
+                        filteredPosts.add(post);
+                    }
+                }
+                createRecyclerView(filteredPosts);
                 }
             });
         builder.show();
     }
 
     private void init(Bundle savedInstanceState) {
-        createRecyclerView();
+        createRecyclerView(postsList);
     }
 
-    private void createRecyclerView() {
+    private void createRecyclerView(ArrayList arrayList) {
         rLayoutManger = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.recyclerView_feed);
         recyclerView.setHasFixedSize(true);
-        rviewAdapter = new PostRVAdapter(postsList);
+        rviewAdapter = new PostRVAdapter(arrayList);
 
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);
