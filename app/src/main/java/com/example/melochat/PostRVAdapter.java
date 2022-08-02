@@ -1,12 +1,15 @@
 package com.example.melochat;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +46,26 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
 
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentItem.addLike();
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentItem.addComment();
+            }
+        });
+
+        holder.repost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentItem.addRepost();
+            }
+        });
     }
 
     @Override
@@ -58,6 +81,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public TextView content;
         public TextView timestamp;
         public ImageView media;
+        public Button like;
+        public Button comment;
+        public Button repost;
 
         public PostRVHolder(View itemView) {
             super(itemView);
@@ -66,6 +92,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             genre = itemView.findViewById(R.id.textView_genre);
             content = itemView.findViewById(R.id.textView_post);
             timestamp = itemView.findViewById(R.id.textView_timestamp);
+            like = itemView.findViewById(R.id.button_like);
+            comment = itemView.findViewById(R.id.button_comment);
+            repost = itemView.findViewById(R.id.button_repost);
             //media = itemView.findViewById(R.id.textView_media);
         }
     }

@@ -11,6 +11,9 @@ public class PostItem implements Serializable {
     private String content;
     private String media; //url to media
     private String timestamp;
+    private Integer likes;
+    private Integer comments;
+    private Integer reposts;
 
     public PostItem(){}
 
@@ -21,6 +24,9 @@ public class PostItem implements Serializable {
         this.content = content;
         this.media = media;
         this.timestamp = timestamp;
+        this.likes = 0;
+        this.comments = 0;
+        this.reposts = 0;
     }
 
     public String getUserId() {
@@ -65,4 +71,15 @@ public class PostItem implements Serializable {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public Integer getLikes() { return likes;}
+    public void addLike() {this.likes++;}
+
+    public Integer getComments() {return comments;}
+    public void addComment() {this.comments++;}
+
+    public Integer getReposts() {return reposts;}
+    public void addRepost() {this.reposts++;}
+
+
 }
