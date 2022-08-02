@@ -1,5 +1,7 @@
 package com.example.melochat;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.melochat.models.PostItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -26,7 +29,7 @@ public class FeedActivity extends AppCompatActivity {
     private DatabaseReference postsDatabase;
     private RecyclerView recyclerView;
     private PostRVAdapter rviewAdapter;
-    private RecyclerView.LayoutManager rLayoutManger;
+    private LinearLayoutManager rLayoutManger;
     private ArrayList<PostItem> postsList;
     //private Map<String, PostItem> posts;
 
@@ -53,6 +56,7 @@ public class FeedActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         intent = new Intent(FeedActivity.this, ProfileActivity.class);
+                        intent.putExtra("posts",postsList);
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
@@ -66,7 +70,6 @@ public class FeedActivity extends AppCompatActivity {
 
         init(savedInstanceState);
     }
-
 
 
     public void onClick(View view){
@@ -83,27 +86,36 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void filterPosts() {
+        ArrayList<PostItem> filteredPosts = new ArrayList<>();
         String[] options = getResources().getStringArray(R.array.genres_array);
         AlertDialog.Builder builder = new AlertDialog.Builder(FeedActivity.this);
         builder.setTitle("Filter by genre");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO Select posts by genre
+                for (PostItem post : postsList){
+                    if (post.getGenre().equalsIgnoreCase(options[which])){
+                        filteredPosts.add(post);
+                    }
+                }
+                createRecyclerView(filteredPosts);
                 }
             });
         builder.show();
     }
 
     private void init(Bundle savedInstanceState) {
-        createRecyclerView();
+        createRecyclerView(postsList);
     }
 
-    private void createRecyclerView() {
-        rLayoutManger = new LinearLayoutManager(this);
+    private void createRecyclerView(ArrayList arrayList) {
+        rLayoutManger = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rLayoutManger.setStackFromEnd(true);
+        rLayoutManger.setReverseLayout(true);
+
         recyclerView = findViewById(R.id.recyclerView_feed);
         recyclerView.setHasFixedSize(true);
-        rviewAdapter = new PostRVAdapter(postsList);
+        rviewAdapter = new PostRVAdapter(arrayList);
 
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);

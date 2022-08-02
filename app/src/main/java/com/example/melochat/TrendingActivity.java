@@ -48,6 +48,7 @@ public class TrendingActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         intent = new Intent(TrendingActivity.this, ProfileActivity.class);
+                        intent.putExtra("posts",postsList);
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
