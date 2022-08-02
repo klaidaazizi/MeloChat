@@ -46,8 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
-        nameText = (TextView) findViewById(R.id.textView_name);
-        emailText = (TextView) findViewById(R.id.textView_email);
 
         // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
@@ -78,8 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        init(savedInstanceState);
     }
 
     @Override
@@ -92,10 +88,9 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
+            String currentUID = currentUser.getUid();
             nameText.setText(currentUser.getDisplayName());
             emailText.setText(currentUser.getEmail());
-            Toast.makeText(ProfileActivity.this, "Login Success.",
-                    Toast.LENGTH_SHORT).show();
 
             // Get URL of profile image named by their userID and update UI
             profileImagesRef.child(currentUser.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -110,6 +105,15 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+
+            // Filter postsList by current user
+            ArrayList<PostItem> filteredPosts = new ArrayList<>();
+            for (PostItem post : postsList){
+                if (post.getUserId().equals(currentUID)){
+                    filteredPosts.add(post);
+                }
+            }
+            createRecyclerView(filteredPosts);
         }
     }
 
