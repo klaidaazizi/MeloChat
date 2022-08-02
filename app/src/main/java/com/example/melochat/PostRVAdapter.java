@@ -27,8 +27,7 @@ import java.util.ArrayList;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
     private final ArrayList<PostItem> postsList;
-    private View context;
-    Bitmap bmThumbnail;
+    private Uri uri;
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -52,30 +51,22 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
 
-        Uri uri = Uri.parse(currentItem.getMedia());
+        if (currentItem.getMedia() != null) {
+            uri = Uri.parse(currentItem.getMedia());
+        }
 
-        //Glide.with(holder.media.getContext()).load(uri).into(holder.media);
-
-        //Picasso.get().load(uri.toString()).into(holder.media);
-
-//        bmThumbnail = getThumblineImage(uri.toString());
-//        holder.media.setImageBitmap(bmThumbnail);
 
         holder.mediaView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewIntent =
-                        new Intent("android.intent.action.VIEW",
-                                Uri.parse(uri.toString()));
-                Bundle extras = viewIntent.getExtras();
-                startActivity(holder.mediaView.getContext(),viewIntent,extras);
-            }
+                if (currentItem.getMedia() != null) {
+                    Intent viewIntent =
+                            new Intent("android.intent.action.VIEW", Uri.parse(uri.toString()));
+                    Bundle extras = viewIntent.getExtras();
+                    startActivity(holder.mediaView.getContext(), viewIntent, extras);
+                }
+                }
         });
-    }
-
-    //Reference: https://stackoverflow.com/questions/23522124/android-display-a-video-thumbnail-from-a-url
-    public static Bitmap getThumblineImage(String videoPath) {
-        return ThumbnailUtils.createVideoThumbnail(videoPath, MINI_KIND);
     }
 
 
