@@ -9,18 +9,37 @@ public class PostItem implements Serializable {
     private String userName;
     private String genre;
     private String content;
-    private String mediaURL; //url to media
+    private String media;
     private String timestamp;
+    private Integer likes;
+    private Integer comments;
+    private Integer reposts;
 
     public PostItem(){}
 
-    public PostItem(String userId, String userName, String genre, String content, String mediaURL, String timestamp) {
+    public PostItem(String userId, String userName, String genre, String content, String media, String timestamp) {
         this.userId = userId;
         this.userName = userName;
         this.genre = genre;
         this.content = content;
-        this.mediaURL = mediaURL;
+        this.media = media;
         this.timestamp = timestamp;
+        this.likes = 0;
+        this.comments = 0;
+        this.reposts = 0;
+    }
+
+    public PostItem(String userId, String userName, String genre, String content, String media, String timestamp,
+                    Integer likes, Integer comments, Integer reposts) {
+        this.userId = userId;
+        this.userName = userName;
+        this.genre = genre;
+        this.content = content;
+        this.media = media;
+        this.timestamp = timestamp;
+        this.likes = likes;
+        this.comments = comments;
+        this.reposts = reposts;
     }
 
     public String getUserId() {
@@ -50,12 +69,12 @@ public class PostItem implements Serializable {
         this.content = content;
     }
 
-    public String getMediaURL() {
-        return mediaURL;
+    public String getMedia() {
+        return media;
     }
 
-    public void setMediaURL(String mediaURL) {
-        this.mediaURL = mediaURL;
+    public void setMedia(String media) {
+        this.media = media;
     }
 
     public String getTimestamp() {
@@ -65,4 +84,15 @@ public class PostItem implements Serializable {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public Integer getLikes() { return likes;}
+    public void addLike() {this.likes++;}
+
+    public Integer getComments() {return comments;}
+    public void addComment() {this.comments++;}
+
+    public Integer getReposts() {return reposts;}
+    public void addRepost() {this.reposts++;}
+
+
 }

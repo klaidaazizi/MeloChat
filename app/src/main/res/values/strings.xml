@@ -44,6 +44,7 @@
         <item>Reggae</item>
         <item>EDM</item>
         <item>Gospel</item>
+        <item>All</item>
     </string-array>
 
     <string-array name="age_array">

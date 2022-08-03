@@ -133,10 +133,14 @@ public class SignupActivity extends AppCompatActivity {
             String userName = (String) postSnapshot.child("userName").getValue();
             String content = (String) postSnapshot.child("content").getValue();
             String media = (String) postSnapshot.child("media").getValue();
-            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
+            Integer likes = Math.toIntExact((long) postSnapshot.child("likes").getValue());
+            Integer comments = Math.toIntExact((long) postSnapshot.child("comments").getValue());
+            Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
+            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }
         //Log.d("posts",postsList.toString());
     }
+
 
     // Reference: https://firebase.google.com/docs/auth/android/password-auth
     @Override
