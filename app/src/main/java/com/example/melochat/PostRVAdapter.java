@@ -15,11 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
-    private final ArrayList<PostItem> postsList;
+    private ArrayList<PostItem> postsList;
+    private DatabaseReference database;
+
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -33,8 +40,13 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         return new PostRVHolder(view);
     }
 
+    public ArrayList<PostItem> getPostsList() {
+        return postsList;
+    }
+
     @Override
     public void onBindViewHolder(PostRVHolder holder, int position) {
+        database = FirebaseDatabase.getInstance().getReference();
 
         PostItem currentItem = postsList.get(position);
 
@@ -53,7 +65,25 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addLike();
+                // Update postsList
+                postsList.set(holder.getAdapterPosition(), currentItem);
+                // Update UI
                 holder.likeCount.setText(currentItem.getLikes().toString());
+                // Update database
+                String timestamp = currentItem.getTimestamp();
+                database.child("posts").child(timestamp).child("likes").setValue(currentItem.getLikes())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Utils.postToastMessage("Successfully updated likes!", view.getContext());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Utils.postToastMessage("Failed to update likes.",view.getContext());
+                            }
+                        });
             }
         });
 
@@ -61,7 +91,25 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addComment();
+                // Update postsList
+                postsList.set(holder.getAdapterPosition(), currentItem);
+                // Update UI
                 holder.commentCount.setText(currentItem.getComments().toString());
+                // Update database
+                String timestamp = currentItem.getTimestamp();
+                database.child("posts").child(timestamp).child("comments").setValue(currentItem.getLikes())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Utils.postToastMessage("Successfully updated comments!", view.getContext());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Utils.postToastMessage("Failed to update comments.", view.getContext());
+                            }
+                        });
             }
         });
 
@@ -69,7 +117,25 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             @Override
             public void onClick(View view) {
                 currentItem.addRepost();
+                // Update postsList
+                postsList.set(holder.getAdapterPosition(), currentItem);
+                // Update UI
                 holder.repostCount.setText(currentItem.getReposts().toString());
+                // Update database
+                String timestamp = currentItem.getTimestamp();
+                database.child("posts").child(timestamp).child("reposts").setValue(currentItem.getReposts())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Utils.postToastMessage("Successfully updated reposts!", view.getContext());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Utils.postToastMessage("Failed to update reposts.",view.getContext());
+                            }
+                        });
             }
         });
     }
@@ -93,8 +159,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public TextView likeCount;
         public TextView commentCount;
         public TextView repostCount;
-
-
 
         public PostRVHolder(View itemView) {
             super(itemView);
