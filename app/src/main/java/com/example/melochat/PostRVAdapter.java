@@ -1,5 +1,7 @@
 package com.example.melochat;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -171,7 +172,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public TextView genre;
         public TextView content;
         public TextView timestamp;
-        public ImageButton mediaView;
+        public ImageView mediaView;
         public Button like;
         public Button comment;
         public Button repost;
@@ -186,7 +187,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             genre = itemView.findViewById(R.id.textView_genre);
             content = itemView.findViewById(R.id.textView_post);
             timestamp = itemView.findViewById(R.id.textView_timestamp);
-            mediaView = (ImageButton) itemView.findViewById(R.id.imageView_thumbnail);
+            mediaView = (ImageView) itemView.findViewById(R.id.imageView_thumbnail);
             like = itemView.findViewById(R.id.button_like);
             comment = itemView.findViewById(R.id.button_comment);
             repost = itemView.findViewById(R.id.button_repost);

@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -91,14 +92,20 @@ public class FeedActivity extends AppCompatActivity {
     public void filterPosts() {
         ArrayList<PostItem> filteredPosts = new ArrayList<>();
         String[] options = getResources().getStringArray(R.array.genres_array);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(FeedActivity.this);
         builder.setTitle("Filter by genre");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (PostItem post : postsList){
-                    if (post.getGenre().equalsIgnoreCase(options[which])){
-                        filteredPosts.add(post);
+                Log.e("", options[which]);
+                if ("All".equalsIgnoreCase(options[which])){
+                    filteredPosts.addAll(postsList);}
+                else {
+                    for (PostItem post : postsList){
+                        if (post.getGenre().equalsIgnoreCase(options[which])) {
+                                filteredPosts.add(post);
+                            }
                     }
                 }
                 createRecyclerView(filteredPosts);

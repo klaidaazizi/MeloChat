@@ -9,7 +9,7 @@ public class PostItem implements Serializable {
     private String userName;
     private String genre;
     private String content;
-    private String media; //url to media
+    private String media;
     private String timestamp;
     private Integer likes;
     private Integer comments;
