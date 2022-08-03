@@ -93,7 +93,7 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
+        android:layout_width="413dp"
         android:layout_height="100dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,65 +108,65 @@
 
             <Button
                 android:id="@+id/button1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button1"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button1" />
 
             <Button
                 android:id="@+id/button2"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button2"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button2" />
 
             <Button
                 android:id="@+id/button3"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button3"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button3" />
 
             <Button
                 android:id="@+id/button4"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button4"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button4" />
 
             <Button
                 android:id="@+id/button5"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button5"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button5" />
 
             <Button
                 android:id="@+id/button6"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button6"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button6" />
 
             <Button
                 android:id="@+id/button7"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button7"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button7" />
 
             <Button
                 android:id="@+id/button8"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_button8"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_button8" />
         </LinearLayout>
     </HorizontalScrollView>
 
     <HorizontalScrollView
         android:id="@+id/Posts_horizontalScrollView2"
-        android:layout_width="match_parent"
+        android:layout_width="409dp"
         android:layout_height="100dp"
         android:layout_marginTop="52dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
@@ -183,45 +183,45 @@
 
             <Button
                 android:id="@+id/post_button1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button1"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button1" />
 
             <Button
                 android:id="@+id/post_button2"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button2"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button2" />
 
             <Button
                 android:id="@+id/post_button3"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button3"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button3" />
 
             <Button
                 android:id="@+id/post_button4"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button4"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button4" />
 
             <Button
                 android:id="@+id/post_button5"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button5"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button5" />
 
             <Button
                 android:id="@+id/post_button6"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post_button6"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:text="@string/new_post_button6" />
         </LinearLayout>
     </HorizontalScrollView>
 

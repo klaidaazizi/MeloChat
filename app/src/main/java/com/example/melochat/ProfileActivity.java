@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +32,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
-
+    
     private FirebaseAuth mAuth;
     private ImageView profilePhoto;
     private TextView emailText;
@@ -47,6 +44,9 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference database;
     private DatabaseReference postsDatabase;
 
+    // TODO: 8/2/22 rebuild profile activity xml to have horizontal recyclerview within relative layout  
+    // TODO: 8/2/22 add profileRV adapter & holder file for recyclerview 
+    // TODO: 8/2/22 add card_profile_item xml file  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -74,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_profile:
+                        intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                        intent.putExtra("posts", postsList);
                         Utils.postToastMessage("You're in the Profile page!",ProfileActivity.this);
                         break;
                     case R.id.action_feed:
