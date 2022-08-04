@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,10 +45,14 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<PostItem> postsList;
     private DatabaseReference database;
     private DatabaseReference postsDatabase;
+    private RecyclerView recyclerView;
+    private PostRVAdapter profileRViewAdapter;
+    private RecyclerView.LayoutManager rLayoutManager;
 
-    // TODO: 8/2/22 rebuild profile activity xml to have horizontal recyclerview within relative layout  
-    // TODO: 8/2/22 add profileRV adapter & holder file for recyclerview 
-    // TODO: 8/2/22 add card_profile_item xml file  
+
+    // TODO: 8/2/22 rebuild profile activity xml to have horizontal recyclerview within relative layout
+    // TODO: 8/2/22 add profileRV adapter & holder file for recyclerview
+    // TODO: 8/2/22 add card_profile_item xml file
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +108,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        init(savedInstanceState);
     }
 
 
@@ -148,6 +156,20 @@ public class ProfileActivity extends AppCompatActivity {
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
         }
         //Log.d("posts",postsList.toString());
+    }
+
+    private void init(Bundle savedInstanceState) {
+        createRecyclerView(postsList);
+    }
+
+    private void createRecyclerView(ArrayList userPostList) {
+        rLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.recyclerView_profile);
+        recyclerView.setHasFixedSize(true);
+        profileRViewAdapter = new PostRVAdapter(userPostList);
+
+        recyclerView.setAdapter(profileRViewAdapter);
+        recyclerView.setLayoutManager(rLayoutManager);
     }
 
 
