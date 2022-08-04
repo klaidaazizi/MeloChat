@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.Objects;
 
 public class FeedActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference database;
     private DatabaseReference postsDatabase;
     private RecyclerView recyclerView;
     private PostRVAdapter rviewAdapter;
@@ -48,6 +49,24 @@ public class FeedActivity extends AppCompatActivity {
         postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
 
         setContentView(R.layout.activity_feed);
+/*
+        database = FirebaseDatabase.getInstance().getReference();
+        postsDatabase = database.child("posts");
+
+        postsList = new ArrayList<>();
+        postsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updatePosts(snapshot.getChildren());
+                Log.e("POSTS: ", postsList.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+ */
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -71,16 +90,14 @@ public class FeedActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         init(savedInstanceState);
     }
-
 
     public void onClick(View view){
         switch (view.getId()){
              case R.id.button_trending:
                 Intent trendingIntent = new Intent(this, TrendingActivity.class);
-                trendingIntent.putExtra("posts", postsList);
+                trendingIntent.putExtra("posts", rviewAdapter.getPostsList());
                 startActivity(trendingIntent);
                 break;
             case R.id.button_filter:
@@ -105,7 +122,7 @@ public class FeedActivity extends AppCompatActivity {
                     for (PostItem post : postsList){
                         if (post.getGenre().equalsIgnoreCase(options[which])) {
                                 filteredPosts.add(post);
-                            }
+                        }
                     }
                 }
                 createRecyclerView(filteredPosts);
