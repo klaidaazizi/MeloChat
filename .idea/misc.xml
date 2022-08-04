@@ -8,10 +8,11 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3860865275065104" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_post.xml" value="0.17436472574869796" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.32427673339843754" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25393218994140626" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.3440658569335938" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.22313232421875" />
         <entry key="app/src/main/res/layout/card_feed_item.xml" value="0.2623345987686258" />
+        <entry key="app/src/main/res/layout/card_profile_item.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/layout_feed_item.xml" value="0.1921875" />
         <entry key="app/src/main/res/layout/layout_logo.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/layout_logo_longer.xml" value="0.19479166666666667" />

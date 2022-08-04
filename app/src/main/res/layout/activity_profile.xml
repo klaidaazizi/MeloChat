@@ -69,91 +69,8 @@
         app:layout_constraintStart_toEndOf="@+id/userProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/textView_name" />
 
-    <TextView
-        android:id="@+id/UserGenres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/genres"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfileImage" />
 
 
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserGenres">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button1"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button2"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button3"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button4"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button5"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button6"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button7"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_button8"
-                style="?android:attr/buttonBarButtonStyle" />
-        </LinearLayout>
-    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_profile"
@@ -162,6 +79,6 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/userProfileImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
