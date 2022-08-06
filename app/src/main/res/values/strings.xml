@@ -12,7 +12,6 @@
     <string name="post">Post</string>
     <string name="genre">Genre:</string>
     <string name="timestamp">Timestamp</string>
-    <string name="new_post_button1">New Post Button1</string>
     <string name="posts">Posts:</string>
     <string name="new_post_button2">New Post Button2</string>
     <string name="new_post_button3">New Post Button3</string>
@@ -20,7 +19,6 @@
     <string name="new_post_button5">New Post Button5</string>
     <string name="new_post_button6">New Post Button6</string>
     <string name="new_button8">New Button8</string>
-    <string name="new_button1">New Button1</string>
     <string name="new_button2">New Button2</string>
     <string name="new_button3">New Button3</string>
     <string name="new_button4">New Button4</string>
@@ -28,6 +26,14 @@
     <string name="new_button6">New Button6</string>
     <string name="new_button7">New Button7</string>
     <string name="email">Email</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="repost">Repost</string>
+    <string name="more">More</string>
+    <string name="post_card_1">Post Card 1</string>
+    <string name="post_card_2">post card 2</string>
+    <string name="post_card_3">post card 3</string>
+    <string name="post_card_4">post card 4</string>
     <string-array name="genres_array">
         <item>Pop</item>
         <item>Rock</item>
