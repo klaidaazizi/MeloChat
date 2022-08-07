@@ -5,6 +5,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
     private Uri uri;
     private ArrayList<PostItem> postsList;
     private DatabaseReference database;
-
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -159,7 +159,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         });
     }
 
-
     @Override
     public int getItemCount() {
         //Log.e("POSTS", String.valueOf(postsList));
@@ -194,7 +193,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             likeCount = itemView.findViewById(R.id.textView_like);
             commentCount = itemView.findViewById(R.id.textView_comment);
             repostCount = itemView.findViewById(R.id.textView_repost);
-
         }
     }
 
