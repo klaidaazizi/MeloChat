@@ -6,21 +6,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,10 +39,14 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView profilePhoto;
     private TextView emailText;
     private TextView nameText;
+    private TextView ageRangeText;
     private StorageReference mStorage;
     private StorageReference profileImagesRef;
 
     private ArrayList<PostItem> postsList;
+    private RecyclerView recyclerView;
+    private ProfileRVAdapter rviewAdapter;
+    private LinearLayoutManager rLayoutManager;
     private DatabaseReference database;
     private DatabaseReference postsDatabase;
 
@@ -54,12 +57,13 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         nameText = (TextView) findViewById(R.id.textView_name);
         emailText = (TextView) findViewById(R.id.textView_email);
+        ageRangeText = findViewById(R.id.textView_age);
 
         // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
         emailText = (TextView) findViewById(R.id.textView_email);
         nameText = (TextView) findViewById(R.id.textView_name);
-        profilePhoto = findViewById(R.id.userProfileImage);
+        ageRangeText = (TextView)  findViewById(R.id.textView_age);
 
         postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
 
@@ -74,7 +78,12 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_profile:
-                        Utils.postToastMessage("You're in the Profile page!",ProfileActivity.this);
+                        //Utils.postToastMessage("You're in the Profile page!",ProfileActivity.this);
+                        /*intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                        intent.putExtra("profile", rviewAdapter.getPostsList());
+                        startActivity(intent);*/
+                        //createRecyclerView(postsList);
+                        init(savedInstanceState);
                         break;
                     case R.id.action_feed:
                         intent = new Intent(ProfileActivity.this, FeedActivity.class);
@@ -99,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
 
 
@@ -147,5 +157,21 @@ public class ProfileActivity extends AppCompatActivity {
         //Log.d("posts",postsList.toString());
     }
 
+    private void init(Bundle savedInstanceState){
+        createRecyclerView(postsList);
+    }
+
+    private void createRecyclerView(ArrayList<PostItem> profileList) {
+        rLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rLayoutManager.setStackFromEnd(true);
+        rLayoutManager.setReverseLayout(true);
+
+        recyclerView = findViewById(R.id.recyclerView_profile);
+        recyclerView.setHasFixedSize(true);
+        rviewAdapter = new ProfileRVAdapter(profileList);
+
+        recyclerView.setAdapter(rviewAdapter);
+        recyclerView.setLayoutManager(rLayoutManager);
+    }
 
 }

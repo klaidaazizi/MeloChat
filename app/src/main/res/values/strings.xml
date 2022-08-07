@@ -34,6 +34,7 @@
     <string name="post_card_2">post card 2</string>
     <string name="post_card_3">post card 3</string>
     <string name="post_card_4">post card 4</string>
+    <string name="age">Age</string>
     <string-array name="genres_array">
         <item>Pop</item>
         <item>Rock</item>
