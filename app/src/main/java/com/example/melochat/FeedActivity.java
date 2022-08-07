@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class FeedActivity extends AppCompatActivity {
     private LinearLayoutManager rLayoutManger;
     private ArrayList<PostItem> postsList;
     //private Map<String, PostItem> posts;
+    private DatabaseReference database;
 
 
     @Override
@@ -65,7 +67,7 @@ public class FeedActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
-                        Utils.postToastMessage("You're already in the feed activity!",FeedActivity.this);
+                        createRecyclerView(postsList);
                         break;
                 }
                 return true;
@@ -79,15 +81,24 @@ public class FeedActivity extends AppCompatActivity {
     public void onClick(View view){
         switch (view.getId()){
              case R.id.button_trending:
-                Intent trendingIntent = new Intent(this, TrendingActivity.class);
-                trendingIntent.putExtra("posts", postsList);
-                startActivity(trendingIntent);
-                break;
+                showTrendingPosts();
+                 break;
             case R.id.button_filter:
                 filterPosts();
                 break;
         }
     }
+
+    private void showTrendingPosts() {
+        ArrayList<PostItem> trendingPosts = new ArrayList<>();
+        for (PostItem post: postsList){
+            if (post.getLikes() >= 10){
+                trendingPosts.add(post);
+            }
+        }
+        createRecyclerView(trendingPosts);
+    }
+
 
     public void filterPosts() {
         ArrayList<PostItem> filteredPosts = new ArrayList<>();
@@ -131,19 +142,4 @@ public class FeedActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(rLayoutManger);
     }
 
-    private void updatePosts(Iterable<DataSnapshot> children) {
-        for (DataSnapshot postSnapshot : children) {
-            //String post = postSnapshot.getKey();
-            String timestamp = (String) postSnapshot.child("timestamp").getValue();
-            String genre = (String) postSnapshot.child("genre").getValue();
-            String userId = (String) postSnapshot.child("userId").getValue();
-            String userName = (String) postSnapshot.child("userName").getValue();
-            String content = (String) postSnapshot.child("content").getValue();
-            String media = (String) postSnapshot.child("media").getValue();
-            Integer likes = Math.toIntExact((long) postSnapshot.child("likes").getValue());
-            Integer comments = Math.toIntExact((long) postSnapshot.child("comments").getValue());
-            Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
-            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
-        }
-    }
 }
