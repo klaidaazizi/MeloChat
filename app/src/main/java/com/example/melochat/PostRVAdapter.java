@@ -95,7 +95,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                 holder.likeCount.setText(currentItem.getLikes().toString());
                 // Update database
                 String timestamp = currentItem.getTimestamp();
-                database.child("posts").child(timestamp).child("likes").setValue(currentItem.getLikes())
+                database.child("postsWithComments").child(timestamp).child("likes").setValue(currentItem.getLikes())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -135,14 +135,14 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                                 holder.commentCount.setText(currentItem.getCommentsNumber().toString());
                                 // Update database
                                 String timestamp = currentItem.getTimestamp();
-                                DatabaseReference commentRef = database.child("posts").child(timestamp).child("comments").getRef();
+                                DatabaseReference commentRef = database.child("postsWithComments").child(timestamp).child("comments").getRef();
                                 commentRef.push().setValue(text);
 
                                 dialog.cancel();
                             }
                         });
 
-                builder.setNegativeButton("Cancel",
+               builder.setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
@@ -162,7 +162,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                 holder.repostCount.setText(currentItem.getReposts().toString());
                 // Update database
                 String timestamp = currentItem.getTimestamp();
-                database.child("posts").child(timestamp).child("reposts").setValue(currentItem.getReposts())
+                database.child("postsWithComments").child(timestamp).child("reposts").setValue(currentItem.getReposts())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

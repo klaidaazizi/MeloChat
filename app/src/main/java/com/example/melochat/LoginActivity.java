@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("posts");
+        postsDatabase = database.child("postsWithComments");
         postsList = new ArrayList<>();
         postsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
