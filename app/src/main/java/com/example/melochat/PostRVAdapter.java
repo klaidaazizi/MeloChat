@@ -185,26 +185,27 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentItem.addRepost();
-                // Update postsList
-                postsList.set(holder.getAdapterPosition(), currentItem);
-                // Update UI
-                holder.repostCount.setText(currentItem.getReposts().toString());
-                // Update database
-                String timestamp = currentItem.getTimestamp();
-                database.child("posts").child(timestamp).child("reposts").setValue(currentItem.getReposts())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Utils.postToastMessage("Successfully updated reposts!", view.getContext());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Utils.postToastMessage("Failed to update reposts.",view.getContext());
+                ArrayList<String> commentsList= currentItem.getComments();
+                String comments[] = commentsList.toArray(new String[commentsList.size()]);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("All Comments");
+                builder.setItems(comments, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.setNegativeButton("Return",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
                             }
                         });
+
+                builder.show();
+
             }
         });
 
