@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/feed_item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+
         <TextView
             android:id="@+id/textView_timestamp"
             android:layout_width="wrap_content"
@@ -41,7 +43,7 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageView_thumbnail"
             android:layout_width="100dp"
-            android:layout_height="95dp"
+            android:layout_height="90dp"
             android:layout_below="@id/textView_name"
             android:layout_alignParentStart="true"
             android:layout_marginStart="1dp"
@@ -82,14 +84,12 @@
             android:textColor="#808080"
             android:textSize="13sp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/button_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView_thumbnail"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"
             android:visibility="visible">
 
 
@@ -97,6 +97,7 @@
                 android:id="@+id/button_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
                 android:backgroundTint="#FF5722"
                 android:text="Like"
@@ -108,13 +109,13 @@
                 app:iconSize="20dp" />
 
 
+
             <Button
                 android:id="@+id/button_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_toRightOf="@id/button_like"
                 android:backgroundTint="#009688"
                 android:text="Comment"
                 android:textAllCaps="false"
@@ -127,9 +128,8 @@
                 android:id="@+id/button_repost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_toRightOf="@id/button_comment"
                 android:backgroundTint="#FF9800"
                 android:text="Repost"
                 android:textAllCaps="false"
@@ -138,47 +138,65 @@
                 app:iconGravity="textTop"
                 app:iconSize="20dp" />
 
+            <Button
+                android:id="@+id/button_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="#3F51B5"
+                android:text="More"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:icon="@drawable/more"
+                app:iconGravity="textTop"
+                app:iconSize="20dp" />
 
-        </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/button_layout"
             android:layout_alignParentStart="true"
-            android:gravity="center_horizontal"
             android:visibility="visible">
 
             <TextView
                 android:id="@+id/textView_like"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
                 android:text="Like"
+                android:gravity="center"
                 android:textColor="#FF5722"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
 
             <TextView
                 android:id="@+id/textView_comment"
                 android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
                 android:text="Comment"
                 android:textColor="#009688"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
 
             <TextView
                 android:id="@+id/textView_repost"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="0dp"
                 android:gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
                 android:text="Repost"
                 android:textColor="#FF9800"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                />
 
 
         </LinearLayout>
