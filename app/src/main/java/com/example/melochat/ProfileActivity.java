@@ -80,12 +80,8 @@ public class ProfileActivity extends AppCompatActivity {
                     case R.id.action_profile:
                         Utils.postToastMessage("You're in the Profile page!", ProfileActivity.this);
 //                        intent = new Intent(ProfileActivity.this, FeedActivity.class);
-//                        intent.putExtra("profile", rviewAdapter.getPostsList());
+//                        intent.putExtra("user posts", postsList);
 //                        startActivity(intent);
-//                        onStart();
-                        assert currentUser != null;
-                        nameText.setText(currentUser.getDisplayName());
-                        emailText.setText(currentUser.getEmail());
                         showUserPosts();
                         break;
                     case R.id.action_feed:
@@ -139,9 +135,10 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
+        createRecyclerView(postsList);
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
@@ -170,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
-    }*/
+    }
 
 
     private void showUserPosts(){
