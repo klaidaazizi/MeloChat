@@ -79,7 +79,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                 }
         });
         holder.likeCount.setText(currentItem.getLikes().toString());
-        holder.commentCount.setText(currentItem.getComments().toString());
+        holder.commentCount.setText(currentItem.getCommentsNumber().toString());
         holder.repostCount.setText(currentItem.getReposts().toString());
         //Uri uri = Uri.parse(currentItem.getMedia());
         //TODO Generate thumbnail from uri
@@ -94,7 +94,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                 holder.likeCount.setText(currentItem.getLikes().toString());
                 // Update database
                 String timestamp = currentItem.getTimestamp();
-                database.child("posts").child(timestamp).child("likes").setValue(currentItem.getLikes())
+                database.child("postsWithComments").child(timestamp).child("likes").setValue(currentItem.getLikes())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -115,16 +115,28 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Add a Comment");
-                final EditText input = new EditText(view.getContext());
+                final EditText comment = new EditText(view.getContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                builder.setView(input);
+                comment.setLayoutParams(lp);
+                builder.setView(comment);
 
                 builder.setPositiveButton("Enter",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                String text = comment.getText().toString();
+                                // Update current item
+                                currentItem.addComment(text);
+                                // Update postsList
+                                postsList.set(holder.getAdapterPosition(), currentItem);
+                                // Update UI
+                                holder.commentCount.setText(currentItem.getCommentsNumber().toString());
+                                // Update database
+                                String timestamp = currentItem.getTimestamp();
+                                DatabaseReference commentRef = database.child("postsWithComments").child(timestamp).child("comments").getRef();
+                                commentRef.push().setValue(text);
+
                                 dialog.cancel();
                             }
                         });
@@ -137,26 +149,10 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                         });
 
                 builder.show();
-                currentItem.addComment();
-                // Update postsList
-                postsList.set(holder.getAdapterPosition(), currentItem);
-                // Update UI
-                holder.commentCount.setText(currentItem.getComments().toString());
-                // Update database
-                String timestamp = currentItem.getTimestamp();
-                database.child("posts").child(timestamp).child("comments").setValue(currentItem.getLikes())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Utils.postToastMessage("Successfully updated comments!", view.getContext());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Utils.postToastMessage("Failed to update comments.", view.getContext());
-                            }
-                        });
+
+
+
+
             }
         });
 
@@ -185,6 +181,33 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                         });
             }
         });
+
+        holder.more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentItem.addRepost();
+                // Update postsList
+                postsList.set(holder.getAdapterPosition(), currentItem);
+                // Update UI
+                holder.repostCount.setText(currentItem.getReposts().toString());
+                // Update database
+                String timestamp = currentItem.getTimestamp();
+                database.child("posts").child(timestamp).child("reposts").setValue(currentItem.getReposts())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Utils.postToastMessage("Successfully updated reposts!", view.getContext());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Utils.postToastMessage("Failed to update reposts.",view.getContext());
+                            }
+                        });
+            }
+        });
+
     }
 
     @Override
@@ -203,6 +226,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public Button like;
         public Button comment;
         public Button repost;
+        public Button more;
         public TextView likeCount;
         public TextView commentCount;
         public TextView repostCount;
@@ -218,6 +242,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             like = itemView.findViewById(R.id.button_like);
             comment = itemView.findViewById(R.id.button_comment);
             repost = itemView.findViewById(R.id.button_repost);
+            more = itemView.findViewById(R.id.button_more);
             likeCount = itemView.findViewById(R.id.textView_like);
             commentCount = itemView.findViewById(R.id.textView_comment);
             repostCount = itemView.findViewById(R.id.textView_repost);
