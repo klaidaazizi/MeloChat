@@ -76,8 +76,9 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                     Bundle extras = viewIntent.getExtras();
                     startActivity(holder.mediaView.getContext(), viewIntent, extras);
                 }
-                }
+            }
         });
+
         holder.likeCount.setText(currentItem.getLikes().toString());
         holder.commentCount.setText(currentItem.getCommentsNumber().toString());
         holder.repostCount.setText(currentItem.getReposts().toString());
@@ -94,7 +95,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                 holder.likeCount.setText(currentItem.getLikes().toString());
                 // Update database
                 String timestamp = currentItem.getTimestamp();
-                database.child("postsWithComments").child(timestamp).child("likes").setValue(currentItem.getLikes())
+                database.child("posts").child(timestamp).child("likes").setValue(currentItem.getLikes())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -134,7 +135,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                                 holder.commentCount.setText(currentItem.getCommentsNumber().toString());
                                 // Update database
                                 String timestamp = currentItem.getTimestamp();
-                                DatabaseReference commentRef = database.child("postsWithComments").child(timestamp).child("comments").getRef();
+                                DatabaseReference commentRef = database.child("posts").child(timestamp).child("comments").getRef();
                                 commentRef.push().setValue(text);
 
                                 dialog.cancel();
@@ -147,12 +148,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                                 dialog.cancel();
                             }
                         });
-
                 builder.show();
-
-
-
-
             }
         });
 
@@ -249,5 +245,4 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             repostCount = itemView.findViewById(R.id.textView_repost);
         }
     }
-
 }

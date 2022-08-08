@@ -79,7 +79,7 @@ public class PostActivity extends AppCompatActivity {
         genreSpinner.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("postsWithComments");
+        postsDatabase = database.child("posts");
 
         postsList = new ArrayList<>();
         postsDatabase.addValueEventListener(new ValueEventListener() {
@@ -180,7 +180,7 @@ public class PostActivity extends AppCompatActivity {
         genre = genreSpinner.getSelectedItem().toString();
         timestamp = dateFormat.format(new Date()); //this is gonna be the post id
         PostItem post = new PostItem(userId,userName,genre,content,media,timestamp);
-        database.child("postsWithComments").child(timestamp).setValue(post)
+        database.child("posts").child(timestamp).setValue(post)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
