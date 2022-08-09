@@ -108,6 +108,7 @@
         android:layout_marginEnd="100dp"
         android:hint="Enter Password"
         android:textSize="15dp"
+        android:inputType="textVisiblePassword"
         app:layout_constraintBottom_toBottomOf="@+id/textView_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

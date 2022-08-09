@@ -90,19 +90,26 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if photo has been selected
-                if (imageUri != null) {
-                    createAccount(emailText.getText().toString(),
-                            passwordText.getText().toString(),
-                            nameText.getText().toString(),
-                            imageUri);
+                String name = nameText.getText().toString();
+                String email = emailText.getText().toString();
+                String password = passwordText.getText().toString();
+                if (name.isEmpty() | email.isEmpty() | password.isEmpty()) {
+                    Utils.postToastMessage("Invalid field entry", view.getContext());
                 }
                 else {
-                    imageUri = Uri.parse("android.resource://com.example.melochat/drawable/profile64.png");
-                    createAccount(emailText.getText().toString(),
-                            passwordText.getText().toString(),
-                            nameText.getText().toString(),
-                            imageUri);
+                    // if photo has been selected
+                    if (imageUri != null) {
+                        createAccount(emailText.getText().toString(),
+                                passwordText.getText().toString(),
+                                nameText.getText().toString(),
+                                imageUri);
+                    } else {
+                        imageUri = Uri.parse("android.resource://com.example.melochat/drawable/profile64.png");
+                        createAccount(emailText.getText().toString(),
+                                passwordText.getText().toString(),
+                                nameText.getText().toString(),
+                                imageUri);
+                    }
                 }
             }
         });

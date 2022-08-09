@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Login failed.",
+                            Toast.makeText(LoginActivity.this, "Incorrect email or password.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
