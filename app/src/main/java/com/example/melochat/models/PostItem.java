@@ -3,6 +3,8 @@ package com.example.melochat.models;
 import android.widget.ImageView;
 
 import java.io.Serializable;
+import java.sql.Array;
+import java.util.ArrayList;
 
 public class PostItem implements Serializable {
     private String userId;
@@ -12,7 +14,7 @@ public class PostItem implements Serializable {
     private String media;
     private String timestamp;
     private Integer likes;
-    private Integer comments;
+    private ArrayList<String> comments;
     private Integer reposts;
 
     public PostItem(){}
@@ -25,12 +27,12 @@ public class PostItem implements Serializable {
         this.media = media;
         this.timestamp = timestamp;
         this.likes = 0;
-        this.comments = 0;
+        this.comments = new ArrayList<String>();
         this.reposts = 0;
     }
 
     public PostItem(String userId, String userName, String genre, String content, String media, String timestamp,
-                    Integer likes, Integer comments, Integer reposts) {
+                    Integer likes, ArrayList<String> comments, Integer reposts) {
         this.userId = userId;
         this.userName = userName;
         this.genre = genre;
@@ -88,11 +90,12 @@ public class PostItem implements Serializable {
     public Integer getLikes() { return likes;}
     public void addLike() {this.likes++;}
 
-    public Integer getComments() {return comments;}
-    public void addComment() {this.comments++;}
+    public ArrayList<String> getComments() { return comments; }
+    public Integer getCommentsNumber() { return this.comments.size(); }
+    public void addComment(String comment) { this.comments.add(comment); }
 
-    public Integer getReposts() {return reposts;}
-    public void addRepost() {this.reposts++;}
+    public Integer getReposts() { return reposts; }
+    public void addRepost() { this.reposts++; }
 
 
 }
