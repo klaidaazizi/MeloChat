@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("posts");
+        postsDatabase = database.child("postsWithComments");
         postsList = new ArrayList<>();
         postsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +96,12 @@ public class LoginActivity extends AppCompatActivity {
             String content = (String) postSnapshot.child("content").getValue();
             String media = (String) postSnapshot.child("media").getValue();
             Integer likes = Math.toIntExact((long) postSnapshot.child("likes").getValue());
-            Integer comments = Math.toIntExact((long) postSnapshot.child("comments").getValue());
+            Iterable<DataSnapshot> commentsSnapshot = (Iterable<DataSnapshot>) postSnapshot.child("comments").getChildren();
+            ArrayList<String> comments = new ArrayList<>();
+            for (DataSnapshot snapshot : commentsSnapshot) {
+                String comment = (String) snapshot.getValue();
+                comments.add(comment);
+            }
             Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }
