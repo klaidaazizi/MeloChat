@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import okhttp3.internal.Util;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailText, passwordText;
@@ -54,8 +56,21 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(emailText.getText().toString(),
-                        passwordText.getText().toString());
+                String email = emailText.getText().toString();
+                String password = passwordText.getText().toString();
+
+                if (email.isEmpty() & password.isEmpty()) {
+                    Utils.postToastMessage("Enter valid email and password", view.getContext());
+                }
+                else if (email.isEmpty()) {
+                    Utils.postToastMessage("Enter valid email", view.getContext());
+                }
+                else if (password.isEmpty()) {
+                    Utils.postToastMessage("Enter valid password", view.getContext());
+                }
+                else {
+                    signIn(email, password);
+                }
             }
         });
 
@@ -124,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Login failed.",
+                            Toast.makeText(LoginActivity.this, "Invalid email or password.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
