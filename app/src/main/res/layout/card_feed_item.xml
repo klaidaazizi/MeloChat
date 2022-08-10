@@ -21,12 +21,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/imageView_userPhoto"
             android:text="@string/name"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/imageView_userPhoto"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
+            android:contentDescription="Posted By User Photo"
+            app:srcCompat="@drawable/profile64" />
 
 
         <TextView
@@ -198,9 +207,7 @@
                 android:textSize="14sp"
                 />
 
-
         </LinearLayout>
-
 
     </RelativeLayout>
 
