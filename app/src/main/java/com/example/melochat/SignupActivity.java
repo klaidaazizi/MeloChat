@@ -90,26 +90,33 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if photo has been selected
-                if (imageUri != null) {
-                    createAccount(emailText.getText().toString(),
-                            passwordText.getText().toString(),
-                            nameText.getText().toString(),
-                            imageUri);
+                String name = nameText.getText().toString();
+                String email = emailText.getText().toString();
+                String password = passwordText.getText().toString();
+                if (name.isEmpty() | email.isEmpty() | password.isEmpty()) {
+                    Utils.postToastMessage("Invalid field entry", view.getContext());
                 }
                 else {
-                    imageUri = Uri.parse("android.resource://com.example.melochat/drawable/profile64.png");
-                    createAccount(emailText.getText().toString(),
-                            passwordText.getText().toString(),
-                            nameText.getText().toString(),
-                            imageUri);
+                    // if photo has been selected
+                    if (imageUri != null) {
+                        createAccount(emailText.getText().toString(),
+                                passwordText.getText().toString(),
+                                nameText.getText().toString(),
+                                imageUri);
+                    } else {
+                        imageUri = Uri.parse("android.resource://com.example.melochat/drawable/profile64.png");
+                        createAccount(emailText.getText().toString(),
+                                passwordText.getText().toString(),
+                                nameText.getText().toString(),
+                                imageUri);
+                    }
                 }
             }
         });
 
 
         database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("posts");
+        postsDatabase = database.child("postsWithComments");
         postsList = new ArrayList<>();
         postsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -134,7 +141,12 @@ public class SignupActivity extends AppCompatActivity {
             String content = (String) postSnapshot.child("content").getValue();
             String media = (String) postSnapshot.child("media").getValue();
             Integer likes = Math.toIntExact((long) postSnapshot.child("likes").getValue());
-            Integer comments = Math.toIntExact((long) postSnapshot.child("comments").getValue());
+            Iterable<DataSnapshot> commentsSnapshot = (Iterable<DataSnapshot>) postSnapshot.child("comments").getChildren();
+            ArrayList<String> comments = new ArrayList<>();
+            for (DataSnapshot snapshot : commentsSnapshot) {
+                String comment = (String) snapshot.getValue();
+                comments.add(comment);
+            }
             Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }

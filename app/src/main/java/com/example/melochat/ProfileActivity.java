@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private Button signoutButton;
     private FirebaseAuth mAuth;
     private ImageView profilePhoto;
     private TextView emailText;
@@ -51,8 +54,17 @@ public class ProfileActivity extends AppCompatActivity {
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
         emailText = (TextView) findViewById(R.id.textView_email);
         nameText = (TextView) findViewById(R.id.textView_name);
+        signoutButton = (Button) findViewById(R.id.button_profile_signout);
 
         postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
+
+        signoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

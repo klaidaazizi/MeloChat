@@ -54,13 +54,26 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(emailText.getText().toString(),
-                        passwordText.getText().toString());
+                String email = emailText.getText().toString();
+                String password = passwordText.getText().toString();
+
+                if (email.isEmpty() & password.isEmpty()) {
+                    Utils.postToastMessage("Enter valid email and password", view.getContext());
+                }
+                else if (email.isEmpty()) {
+                    Utils.postToastMessage("Enter valid email", view.getContext());
+                }
+                else if (password.isEmpty()) {
+                    Utils.postToastMessage("Enter valid password", view.getContext());
+                }
+                else {
+                    signIn(email, password);
+                }
             }
         });
 
         database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("posts");
+        postsDatabase = database.child("postsWithComments");
         postsList = new ArrayList<>();
         postsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +109,12 @@ public class LoginActivity extends AppCompatActivity {
             String content = (String) postSnapshot.child("content").getValue();
             String media = (String) postSnapshot.child("media").getValue();
             Integer likes = Math.toIntExact((long) postSnapshot.child("likes").getValue());
-            Integer comments = Math.toIntExact((long) postSnapshot.child("comments").getValue());
+            Iterable<DataSnapshot> commentsSnapshot = (Iterable<DataSnapshot>) postSnapshot.child("comments").getChildren();
+            ArrayList<String> comments = new ArrayList<>();
+            for (DataSnapshot snapshot : commentsSnapshot) {
+                String comment = (String) snapshot.getValue();
+                comments.add(comment);
+            }
             Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }
@@ -119,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Login failed.",
+                            Toast.makeText(LoginActivity.this, "Incorrect email or password.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
