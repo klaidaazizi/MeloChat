@@ -4,15 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,13 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -43,23 +36,21 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference mStorage;
     private StorageReference profileImagesRef;
 
+    private RecyclerView recyclerView;
+    private PostRVAdapter rviewAdapter;
+    private LinearLayoutManager rLayoutManger;
     private ArrayList<PostItem> postsList;
-    private DatabaseReference database;
-    private DatabaseReference postsDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
-        nameText = (TextView) findViewById(R.id.textView_name);
-        emailText = (TextView) findViewById(R.id.textView_email);
 
         // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
         emailText = (TextView) findViewById(R.id.textView_email);
         nameText = (TextView) findViewById(R.id.textView_name);
-        profilePhoto = findViewById(R.id.userProfileImage);
 
         postsList = (ArrayList<PostItem>) getIntent().getSerializableExtra("posts");
 
@@ -85,22 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
-        database = FirebaseDatabase.getInstance().getReference();
-        postsDatabase = database.child("posts");
-        postsList = new ArrayList<>();
-        postsDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                updatePosts(snapshot.getChildren());
-                Log.e("POSTS: ", postsList.toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
-
 
     @Override
     public void onStart() {
@@ -112,10 +88,9 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
+            String currentUID = currentUser.getUid();
             nameText.setText(currentUser.getDisplayName());
             emailText.setText(currentUser.getEmail());
-            Toast.makeText(ProfileActivity.this, "Login Success.",
-                    Toast.LENGTH_SHORT).show();
 
             // Get URL of profile image named by their userID and update UI
             profileImagesRef.child(currentUser.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -130,22 +105,32 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+
+            // Filter postsList by current user
+            ArrayList<PostItem> filteredPosts = new ArrayList<>();
+            for (PostItem post : postsList){
+                if (post.getUserId().equals(currentUID)){
+                    filteredPosts.add(post);
+                }
+            }
+            createRecyclerView(filteredPosts);
         }
     }
 
-    private void updatePosts(Iterable<DataSnapshot> children) {
-        for (DataSnapshot postSnapshot : children) {
-            //String post = postSnapshot.getKey();
-            String timestamp = (String) postSnapshot.child("timestamp").getValue();
-            String genre = (String) postSnapshot.child("genre").getValue();
-            String userId = (String) postSnapshot.child("userId").getValue();
-            String userName = (String) postSnapshot.child("userName").getValue();
-            String content = (String) postSnapshot.child("content").getValue();
-            String media = (String) postSnapshot.child("media").getValue();
-            postsList.add(new PostItem(userId,userName,genre,content,media,timestamp));
-        }
-        //Log.d("posts",postsList.toString());
+    private void init(Bundle savedInstanceState) {
+        createRecyclerView(postsList);
     }
 
+    private void createRecyclerView(ArrayList arrayList) {
+        rLayoutManger = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        rLayoutManger.setStackFromEnd(true);
+        rLayoutManger.setReverseLayout(true);
 
+        recyclerView = findViewById(R.id.recyclerView_profile);
+        recyclerView.setHasFixedSize(true);
+        rviewAdapter = new PostRVAdapter(arrayList);
+
+        recyclerView.setAdapter(rviewAdapter);
+        recyclerView.setLayoutManager(rLayoutManger);
+    }
 }
