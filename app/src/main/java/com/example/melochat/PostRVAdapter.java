@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHolder> {
-    private Uri uri;
     private ArrayList<PostItem> postsList;
     private DatabaseReference database;
     private StorageReference mStorage;
@@ -69,6 +68,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
 
+
         // Set photo of posted by user
         mStorage = FirebaseStorage.getInstance().getReference();
         profileImagesRef = mStorage.child("profileImages");
@@ -90,27 +90,27 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
 
 
         if (currentItem.getMedia() != null) {
-            uri = Uri.parse(currentItem.getMedia());
+            Uri uri = Uri.parse(currentItem.getMedia());
+
+            holder.mediaView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (currentItem.getMedia() != null) {
+                        Intent viewIntent =
+                                new Intent("android.intent.action.VIEW", Uri.parse(uri.toString()));
+                        viewIntent.setPackage("com.android.chrome");
+                        Bundle extras = viewIntent.getExtras();
+                        startActivity(holder.mediaView.getContext(), viewIntent, extras);
+                        //Utils.postToastMessage(currentItem.getMedia(), view.getContext());
+                    }
+                }
+            });
         }
 
-
-        holder.mediaView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentItem.getMedia() != null) {
-                    Intent viewIntent =
-                            new Intent("android.intent.action.VIEW", Uri.parse(uri.toString()));
-                    Bundle extras = viewIntent.getExtras();
-                    startActivity(holder.mediaView.getContext(), viewIntent, extras);
-                }
-            }
-        });
 
         holder.likeCount.setText(currentItem.getLikes().toString());
         holder.commentCount.setText(currentItem.getCommentsNumber().toString());
         holder.repostCount.setText(currentItem.getReposts().toString());
-        //Uri uri = Uri.parse(currentItem.getMedia());
-        //TODO Generate thumbnail from uri
 
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
