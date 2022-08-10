@@ -87,24 +87,18 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             }
         });
 
-
-
         if (currentItem.getMedia() != null) {
             uri = Uri.parse(currentItem.getMedia());
-        }
-
-
-        holder.mediaView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentItem.getMedia() != null) {
+            holder.mediaView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent viewIntent =
-                            new Intent("android.intent.action.VIEW", Uri.parse(uri.toString()));
+                        new Intent("android.intent.action.VIEW", Uri.parse(uri.toString()));
                     Bundle extras = viewIntent.getExtras();
                     startActivity(holder.mediaView.getContext(), viewIntent, extras);
                 }
-            }
-        });
+            });
+        };
 
         holder.likeCount.setText(currentItem.getLikes().toString());
         holder.commentCount.setText(currentItem.getCommentsNumber().toString());

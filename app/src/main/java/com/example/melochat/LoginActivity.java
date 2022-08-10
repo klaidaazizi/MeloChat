@@ -33,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailText, passwordText;
     private Button loginButton;
-    private BottomNavigationView bottomNavigationView;
-
     private FirebaseAuth mAuth;
     private DatabaseReference database;
     public ArrayList<PostItem> postsList;
