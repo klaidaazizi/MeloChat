@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -24,8 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +39,8 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
     private Uri uri;
     private ArrayList<PostItem> postsList;
     private DatabaseReference database;
+    private StorageReference mStorage;
+    private StorageReference profileImagesRef;
 
     //Constructor
     public PostRVAdapter(ArrayList<PostItem> postsList) {
@@ -61,6 +68,26 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
         holder.timestamp.setText(currentItem.getTimestamp());
+
+        // Set photo of posted by user
+        mStorage = FirebaseStorage.getInstance().getReference();
+        profileImagesRef = mStorage.child("profileImages");
+
+        String posterUID = currentItem.getUserId();
+
+        // Get URL of profile image named by their userID and update UI
+        profileImagesRef.child(posterUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(holder.posterPhoto);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        });
+
+
 
         if (currentItem.getMedia() != null) {
             uri = Uri.parse(currentItem.getMedia());
@@ -220,6 +247,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         public TextView content;
         public TextView timestamp;
         public ImageView mediaView;
+        public ImageView posterPhoto;
         public Button like;
         public Button comment;
         public Button repost;
@@ -236,6 +264,7 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
             content = itemView.findViewById(R.id.textView_post);
             timestamp = itemView.findViewById(R.id.textView_timestamp);
             mediaView = (ImageView) itemView.findViewById(R.id.imageView_thumbnail);
+            posterPhoto = (ImageView) itemView.findViewById(R.id.imageView_userPhoto);
             like = itemView.findViewById(R.id.button_like);
             comment = itemView.findViewById(R.id.button_comment);
             repost = itemView.findViewById(R.id.button_repost);
