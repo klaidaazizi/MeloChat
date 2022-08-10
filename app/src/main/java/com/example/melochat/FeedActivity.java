@@ -92,7 +92,7 @@ public class FeedActivity extends AppCompatActivity {
     private void showTrendingPosts() {
         ArrayList<PostItem> trendingPosts = new ArrayList<>();
         for (PostItem post: postsList){
-            if (post.getLikes() >= 10){
+            if ((post.getLikes() +post.getCommentsNumber()) >= 10){
                 trendingPosts.add(post);
             }
         }
