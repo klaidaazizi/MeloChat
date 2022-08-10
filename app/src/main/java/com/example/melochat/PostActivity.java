@@ -173,21 +173,26 @@ public class PostActivity extends AppCompatActivity {
     public void addPost(View view) {
         content = postText.getText().toString();
         genre = genreSpinner.getSelectedItem().toString();
-        timestamp = dateFormat.format(new Date()); //this is gonna be the post id
-        PostItem post = new PostItem(userId,userName,genre,content,media,timestamp);
-        database.child("postsWithComments").child(timestamp).setValue(post)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Utils.postToastMessage("Successfully created new post!",PostActivity.this);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Utils.postToastMessage("Failed to create new post.",PostActivity.this);
-                    }
-                });
+        timestamp = dateFormat.format(new Date());
+        if (content.isEmpty()){
+            Utils.postToastMessage("Please write a content for your post!",view.getContext());
+        }
+        else {
+            PostItem post = new PostItem(userId, userName, genre, content, media, timestamp);
+            database.child("postsWithComments").child(timestamp).setValue(post)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Utils.postToastMessage("Successfully created new post!", PostActivity.this);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Utils.postToastMessage("Failed to create new post.", PostActivity.this);
+                        }
+                    });
+        }
     }
 
 
