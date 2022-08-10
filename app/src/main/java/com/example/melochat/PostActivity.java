@@ -63,19 +63,14 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-
         mAuth = FirebaseAuth.getInstance();
         postText = (EditText) findViewById(R.id.editText_post);
         mediaButton = (Button) findViewById(R.id.button_media);
 
-        // Resource: https://developer.android.com/guide/topics/ui/controls/spinner
         genreSpinner = (Spinner) findViewById(R.id.spinner_genre);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.genres_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         genreSpinner.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance().getReference();

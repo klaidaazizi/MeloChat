@@ -66,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 updatePosts(snapshot.getChildren());
-                Log.e("POSTS: ", postsList.toString());
             }
 
             @Override
