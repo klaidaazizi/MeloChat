@@ -53,7 +53,7 @@ public class PostActivity extends AppCompatActivity {
     private DatabaseReference database;
     private DatabaseReference usersDatabase;
     private DatabaseReference postsDatabase;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d 'at' HH:mm");
     //private Map<String, User> users;
     private FirebaseAuth mAuth;
     public ArrayList<PostItem> postsList;
@@ -180,16 +180,10 @@ public class PostActivity extends AppCompatActivity {
         else {
             PostItem post = new PostItem(userId, userName, genre, content, media, timestamp);
             database.child("postsWithComments").child(timestamp).setValue(post)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Utils.postToastMessage("Successfully created new post!", PostActivity.this);
-                        }
-                    })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Utils.postToastMessage("Failed to create new post.", PostActivity.this);
+                            Utils.postToastMessage("Unable to create new post.", PostActivity.this);
                         }
                     });
         }
