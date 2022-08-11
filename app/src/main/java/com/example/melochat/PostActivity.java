@@ -4,24 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.melochat.models.PostItem;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,14 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class PostActivity extends AppCompatActivity {
-
     private EditText postText;
     private String content;
     private Button mediaButton;
@@ -51,10 +43,8 @@ public class PostActivity extends AppCompatActivity {
     private String userName;
     private String timestamp;
     private DatabaseReference database;
-    private DatabaseReference usersDatabase;
     private DatabaseReference postsDatabase;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-    //private Map<String, User> users;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d 'at' HH:mm");
     private FirebaseAuth mAuth;
     public ArrayList<PostItem> postsList;
 
@@ -63,19 +53,14 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-
         mAuth = FirebaseAuth.getInstance();
         postText = (EditText) findViewById(R.id.editText_post);
         mediaButton = (Button) findViewById(R.id.button_media);
 
-        // Resource: https://developer.android.com/guide/topics/ui/controls/spinner
         genreSpinner = (Spinner) findViewById(R.id.spinner_genre);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.genres_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         genreSpinner.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance().getReference();
@@ -86,7 +71,6 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 updatePosts(snapshot.getChildren());
-                Log.e("POSTS: ", postsList.toString());
             }
 
             @Override
@@ -136,7 +120,6 @@ public class PostActivity extends AppCompatActivity {
 
     private void updatePosts(Iterable<DataSnapshot> children) {
         for (DataSnapshot postSnapshot : children) {
-            //String post = postSnapshot.getKey();
             String timestamp = (String) postSnapshot.child("timestamp").getValue();
             String genre = (String) postSnapshot.child("genre").getValue();
             String userId = (String) postSnapshot.child("userId").getValue();
@@ -153,7 +136,6 @@ public class PostActivity extends AppCompatActivity {
             Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }
-        //Log.d("posts",postsList.toString());
     }
 
     public void onMediaButtonClick(View view){
@@ -178,21 +160,28 @@ public class PostActivity extends AppCompatActivity {
     public void addPost(View view) {
         content = postText.getText().toString();
         genre = genreSpinner.getSelectedItem().toString();
-        timestamp = dateFormat.format(new Date()); //this is gonna be the post id
-        PostItem post = new PostItem(userId,userName,genre,content,media,timestamp);
-        database.child("postsWithComments").child(timestamp).setValue(post)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Utils.postToastMessage("Successfully created new post!",PostActivity.this);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Utils.postToastMessage("Failed to create new post.",PostActivity.this);
-                    }
-                });
+        timestamp = dateFormat.format(new Date());
+        if (content.isEmpty()){
+            Utils.postToastMessage("Please write a content for your post!",view.getContext());
+        }
+        else {
+            PostItem post = new PostItem(userId, userName, genre, content, media, timestamp);
+            database.child("postsWithComments").child(timestamp).setValue(post)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Intent intent = new Intent(PostActivity.this, FeedActivity.class);
+                            intent.putExtra("posts", postsList);
+                            startActivity(intent);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Utils.postToastMessage("Unable to create new post.", PostActivity.this);
+                        }
+                    });
+        }
     }
 
 

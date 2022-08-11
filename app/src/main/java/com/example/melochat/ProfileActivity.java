@@ -50,7 +50,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize widgets
         profilePhoto = (ImageView) findViewById(R.id.userProfileImage);
         emailText = (TextView) findViewById(R.id.textView_email);
         nameText = (TextView) findViewById(R.id.textView_name);
@@ -145,5 +144,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(rviewAdapter);
         recyclerView.setLayoutManager(rLayoutManger);
+    }
+
+    public void signOut(View view){
+        Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
+        startActivity(intent);
     }
 }
