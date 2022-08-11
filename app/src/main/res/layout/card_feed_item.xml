@@ -22,13 +22,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="6dp"
             android:layout_toEndOf="@+id/imageView_userPhoto"
             android:text="@string/name"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
+            android:textColor="#353535"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
 
         <ImageView
             android:id="@+id/imageView_userPhoto"
@@ -42,12 +42,15 @@
             android:id="@+id/textView_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textView_name"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="13dp"
             android:text="@string/timestamp"
-            android:textColor="#808080"
-            android:textSize="14sp" />
+            android:textColor="#E898B3"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageView_thumbnail"
@@ -76,9 +79,11 @@
             android:layout_marginTop="39dp"
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/genre"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textAllCaps="true"
+            android:textColor="#673AB7"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
 
         <TextView
             android:id="@+id/textView_post"
@@ -91,7 +96,8 @@
             android:layout_toEndOf="@id/imageView_thumbnail"
             android:text="@string/post"
             android:textColor="#808080"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:typeface="normal" />
 
         <LinearLayout
             android:id="@+id/button_layout"

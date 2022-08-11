@@ -62,7 +62,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
         database = FirebaseDatabase.getInstance().getReference();
 
         PostItem currentItem = postsList.get(position);
-        //holder.email.setText(currentItem.getUserId());
         holder.name.setText(currentItem.getUserName());
         holder.genre.setText(currentItem.getGenre());
         holder.content.setText(currentItem.getContent());
@@ -101,7 +100,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                         viewIntent.setPackage("com.android.chrome");
                         Bundle extras = viewIntent.getExtras();
                         startActivity(holder.mediaView.getContext(), viewIntent, extras);
-                        //Utils.postToastMessage(currentItem.getMedia(), view.getContext());
                     }
                 }
             });
@@ -126,7 +124,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Utils.postToastMessage("Successfully updated likes!", view.getContext());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -193,7 +190,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Utils.postToastMessage("Successfully updated reposts!", view.getContext());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -236,7 +232,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
 
     @Override
     public int getItemCount() {
-        //Log.e("POSTS", String.valueOf(postsList));
         return postsList.size();
     }
 
@@ -258,7 +253,6 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.PostRVHold
 
         public PostRVHolder(View itemView) {
             super(itemView);
-            //email = itemView.findViewById(R.id.textView_email);
             name = itemView.findViewById(R.id.textView_name);
             genre = itemView.findViewById(R.id.textView_genre);
             content = itemView.findViewById(R.id.textView_post);

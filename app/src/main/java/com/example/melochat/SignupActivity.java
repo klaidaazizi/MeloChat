@@ -122,7 +122,6 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 updatePosts(snapshot.getChildren());
-                Log.e("POSTS: ", postsList.toString());
             }
 
             @Override
@@ -133,7 +132,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private void updatePosts(Iterable<DataSnapshot> children) {
         for (DataSnapshot postSnapshot : children) {
-            //String post = postSnapshot.getKey();
             String timestamp = (String) postSnapshot.child("timestamp").getValue();
             String genre = (String) postSnapshot.child("genre").getValue();
             String userId = (String) postSnapshot.child("userId").getValue();
@@ -150,7 +148,6 @@ public class SignupActivity extends AppCompatActivity {
             Integer reposts = Math.toIntExact((long) postSnapshot.child("reposts").getValue());
             postsList.add(new PostItem(userId,userName,genre,content,media,timestamp,likes,comments,reposts));
         }
-        //Log.d("posts",postsList.toString());
     }
 
 
@@ -184,8 +181,6 @@ public class SignupActivity extends AppCompatActivity {
                             profileImagesRef.child(user.getUid()).putFile(imageUri);
 
                             // Display success message and bring user to Feed Page
-                            Toast.makeText(SignupActivity.this, "Account created.",
-                                    Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
                             intent.putExtra("posts", postsList);
                             startActivity(intent);
