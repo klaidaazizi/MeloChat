@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.melochat.models.PostItem;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -166,6 +167,14 @@ public class PostActivity extends AppCompatActivity {
         else {
             PostItem post = new PostItem(userId, userName, genre, content, media, timestamp);
             database.child("postsWithComments").child(timestamp).setValue(post)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Intent intent = new Intent(PostActivity.this, FeedActivity.class);
+                            intent.putExtra("posts", postsList);
+                            startActivity(intent);
+                        }
+                    })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
