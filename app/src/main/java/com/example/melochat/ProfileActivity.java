@@ -146,8 +146,4 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(rLayoutManger);
     }
 
-    public void signOut(View view){
-        Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
-        startActivity(intent);
-    }
 }

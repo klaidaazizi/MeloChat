@@ -54,7 +54,7 @@ public class FeedActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.action_feed:
-                        createRecyclerView(postsList);
+                        Utils.postToastMessage("You're in the feed page!",FeedActivity.this);
                         break;
                 }
                 return true;
