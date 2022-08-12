@@ -170,8 +170,8 @@ public class PostActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Intent intent = new Intent(PostActivity.this, FeedActivity.class);
-                            intent.putExtra("posts", postsList);
+                            Utils.postToastMessage("Great post! Thanks for sharing!",PostActivity.this);
+                            Intent intent = new Intent(PostActivity.this, PostActivity.class);
                             startActivity(intent);
                         }
                     })
